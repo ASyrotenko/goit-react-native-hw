@@ -154,8 +154,8 @@ export const RegistrationScreen = ({ navigation }) => {
                     onBlur={() => {
                       inputOnBlur("login");
                     }}
-                    onChange={(value) =>
-                      setState((prevState) => ({ ...prevState, login: value }))
+                    onChange={({ nativeEvent: { text } }) =>
+                      setState((prevState) => ({ ...prevState, login: text }))
                     }
                   />
                 </View>
@@ -178,8 +178,8 @@ export const RegistrationScreen = ({ navigation }) => {
                     onBlur={() => {
                       inputOnBlur("email");
                     }}
-                    onChange={(value) => {
-                      setState((prevState) => ({ ...prevState, email: value }));
+                    onChange={({ nativeEvent: { text } }) => {
+                      setState((prevState) => ({ ...prevState, email: text }));
                     }}
                   />
                 </View>
@@ -205,10 +205,10 @@ export const RegistrationScreen = ({ navigation }) => {
                     onBlur={() => {
                       inputOnBlur("password");
                     }}
-                    onChange={(value) =>
+                    onChange={({ nativeEvent: { text } }) =>
                       setState((prevState) => ({
                         ...prevState,
-                        password: value,
+                        password: text,
                       }))
                     }
                   />

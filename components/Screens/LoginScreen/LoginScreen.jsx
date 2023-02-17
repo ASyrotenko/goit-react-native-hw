@@ -102,8 +102,8 @@ export const LoginScreen = ({ navigation }) => {
                     onBlur={() => {
                       inputOnBlur("email");
                     }}
-                    onChange={(value) => {
-                      setState((prevState) => ({ ...prevState, email: value }));
+                    onChange={({ nativeEvent: { text } }) => {
+                      setState((prevState) => ({ ...prevState, email: text }));
                     }}
                   />
                 </View>
@@ -129,10 +129,10 @@ export const LoginScreen = ({ navigation }) => {
                     onBlur={() => {
                       inputOnBlur("password");
                     }}
-                    onChange={(value) =>
+                    onChange={({ nativeEvent: { text } }) =>
                       setState((prevState) => ({
                         ...prevState,
-                        password: value,
+                        password: text,
                       }))
                     }
                   />
