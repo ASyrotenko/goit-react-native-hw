@@ -1,71 +1,43 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Dimensions,
-} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { RegistrationScreen } from "./components/Screens/RegistrationScreen/RegistrationScreen";
-import { LoginScreen } from "./components/Screens/LoginScreen/LoginScreen";
+import { useFonts } from "expo-font";
 
-const MainStack = createStackNavigator();
+import { RegistrationScreen } from "./screens/auth/RegistrationScreen";
+import { LoginScreen } from "./screens/auth/LoginScreen";
+
+const AuthStack = createStackNavigator();
+const MainTab = createBottomTabNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <>
-      <NavigationContainer>
-        <MainStack.Navigator initialRouteName="Login">
-          <MainStack.Screen
-            name="Registration"
-            component={RegistrationScreen}
-            options={{
-              headerStyle: {
-                height: 0,
-              },
-            }}
-          />
-          <MainStack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{
-              headerStyle: {
-                height: 0,
-              },
-            }}
-          />
-        </MainStack.Navigator>
-      </NavigationContainer>
-      {/* <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.container}> */}
-      {/* <ImageBackground
-          source={require("./assets/images/bg_mount.jpg")}
-          style={styles.bgImage}
-        > */}
-      {/* <RegistrationScreen /> */}
-      {/* <LoginScreen /> */}
-      {/* </ImageBackground> */}
-      {/* <StatusBar style="auto" /> */}
-      {/* </View>
-      </TouchableWithoutFeedback> */}
-    </>
+    <NavigationContainer>
+      <AuthStack.Navigator initialRouteName="Login">
+        <AuthStack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <AuthStack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </AuthStack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bgImage: {
-    flex: 1,
-    justifyContent: "flex-end",
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-  },
-});
