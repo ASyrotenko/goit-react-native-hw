@@ -64,9 +64,17 @@ export const RegistrationScreen = ({ navigation }) => {
     if (state.login === "" || state.password === "" || state.email === "") {
       return alert("Fill in all fields please!");
     }
+
+    const { login, email, image } = state;
+
     keyboardHide();
     console.log(state);
-    setState(initialState);
+    navigation.navigate("Home", {
+      login,
+      email,
+      image,
+    });
+    // setState(initialState);
   };
 
   const inputOnFocus = (value) => {

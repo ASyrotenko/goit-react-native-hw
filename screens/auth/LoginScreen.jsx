@@ -42,6 +42,7 @@ export const LoginScreen = ({ navigation }) => {
     }
     keyboardHide();
     console.log(state);
+    navigation.navigate("Home");
     setState(initialState);
   };
 
@@ -69,7 +70,7 @@ export const LoginScreen = ({ navigation }) => {
             style={{ ...styles.container, height: isKeyboardShown ? 248 : 489 }}
             onPress={keyboardHide}
           >
-            <View style={styles.form}>
+            <View style={{ ...styles.form, paddingTop: 32 }}>
               <Text style={styles.title}>Sing in</Text>
               <View style={styles.inputsWrap}>
                 <View style={{ marginTop: 16 }}>

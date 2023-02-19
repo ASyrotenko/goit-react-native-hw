@@ -1,14 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
 import { useFonts } from "expo-font";
 
-import { RegistrationScreen } from "./screens/auth/RegistrationScreen";
-import { LoginScreen } from "./screens/auth/LoginScreen";
-
-const AuthStack = createStackNavigator();
-const MainTab = createBottomTabNavigator();
+import { useRoute } from "./router";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,24 +13,8 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  return (
-    <NavigationContainer>
-      <AuthStack.Navigator initialRouteName="Login">
-        <AuthStack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <AuthStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </AuthStack.Navigator>
-    </NavigationContainer>
-  );
+
+  const routing = useRoute(false);
+
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
