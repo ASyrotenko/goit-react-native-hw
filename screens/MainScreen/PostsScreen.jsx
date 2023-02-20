@@ -36,43 +36,21 @@ export const PostsScreen = ({ route }) => {
         </View>
       </TouchableOpacity>
       <View>
-        <SafeAreaView style={{ marginHorizontal: 16 }}>
+        <SafeAreaView style={styles.postsList}>
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <View style={{ marginBottom: 34 }}>
-                <View style={{ width: "100%", height: 240 }}>
+              <View style={styles.postItemContainer}>
+                <View style={styles.postItemImgContainer}>
                   <Image
                     source={{ uri: item.img }}
-                    style={{
-                      width: "100%",
-                      flex: 1,
-                      resizeMode: "cover",
-                      borderRadius: 16,
-                    }}
+                    style={styles.postItemImg}
                   />
                 </View>
-                <Text
-                  style={{
-                    marginTop: 8,
-                    fontFamily: "Roboto-Regular",
-                    fontSize: 16,
-                    color: "#212121",
-                  }}
-                >
-                  {item.title}
-                </Text>
-                <View
-                  style={{
-                    marginTop: 11,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <TouchableOpacity
-                      style={{ flexDirection: "row", alignItems: "center" }}
-                    >
+                <Text style={styles.postItemTitle}>{item.title}</Text>
+                <View style={styles.postItemInfoContainer}>
+                  <View style={styles.postItemRateContainer}>
+                    <TouchableOpacity style={styles.postItemCommentWrap}>
                       {item.comments.length === 0 ? (
                         <Ionicons
                           name="md-chatbubble-outline"
@@ -89,9 +67,7 @@ export const PostsScreen = ({ route }) => {
 
                       <Text
                         style={{
-                          marginLeft: 8,
-                          fontFamily: "Roboto-Regular",
-                          fontSize: 16,
+                          ...styles.postItemCommentsCount,
                           color:
                             item.comments.length === 0 ? "#BDBDBD" : "#212121",
                         }}
@@ -99,38 +75,14 @@ export const PostsScreen = ({ route }) => {
                         {item.comments.length}
                       </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginLeft: 27,
-                      }}
-                    >
+                    <TouchableOpacity style={styles.postItemLikeWrap}>
                       <AntDesign name="like2" size={18} color="#FF6C00" />
-                      <Text
-                        style={{
-                          marginLeft: 10,
-                          fontFamily: "Roboto-Regular",
-                          fontSize: 16,
-                          color: "#212121",
-                        }}
-                      >
-                        {item.likes}
-                      </Text>
+                      <Text style={styles.postItemLikeCount}>{item.likes}</Text>
                     </TouchableOpacity>
                   </View>
-                  <TouchableOpacity
-                    style={{ flexDirection: "row", alignItems: "center" }}
-                  >
+                  <TouchableOpacity style={styles.postItemLocationWrap}>
                     <Feather name="map-pin" size={24} color="#BDBDBD" />
-                    <Text
-                      style={{
-                        marginLeft: 8,
-                        fontFamily: "Roboto-Regular",
-                        fontSize: 16,
-                        textDecorationLine: "underline",
-                      }}
-                    >
+                    <Text style={styles.postItemLocationText}>
                       {item.location}
                     </Text>
                   </TouchableOpacity>
@@ -178,5 +130,66 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 13,
     color: "#212121",
+  },
+  postsList: {
+    marginHorizontal: 16,
+  },
+  postItemContainer: {
+    marginBottom: 34,
+  },
+  postItemImgContainer: {
+    width: "100%",
+    height: 240,
+  },
+  postItemImg: {
+    width: "100%",
+    flex: 1,
+    resizeMode: "cover",
+    borderRadius: 16,
+  },
+  postItemTitle: {
+    marginTop: 8,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: "#212121",
+  },
+  postItemInfoContainer: {
+    marginTop: 11,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  postItemRateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  postItemCommentWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  postItemCommentsCount: {
+    marginLeft: 8,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+  },
+  postItemLikeWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 27,
+  },
+  postItemLikeCount: {
+    marginLeft: 10,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: "#212121",
+  },
+  postItemLocationWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  postItemLocationText: {
+    marginLeft: 8,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    textDecorationLine: "underline",
   },
 });
