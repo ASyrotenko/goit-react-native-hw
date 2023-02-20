@@ -90,7 +90,9 @@ export const Home = ({ navigation, route }) => {
           header: ({ route, options }) => {
             const title = getHeaderTitle(options, route.name);
 
-            return <MyHeader title={title} navigation={navigation} />;
+            return (
+              <CustomMainTabHeader title={title} navigation={navigation} />
+            );
           },
           tabBarIcon: ({ focused, size, color }) => (
             <AntDesign name="plus" size={13} color="#ffffff" />
@@ -106,7 +108,9 @@ export const Home = ({ navigation, route }) => {
           header: ({ navigation, route, options }) => {
             const title = getHeaderTitle(options, route.name);
 
-            return <MyHeader title={title} navigation={navigation} />;
+            return (
+              <CustomMainTabHeader title={title} navigation={navigation} />
+            );
           },
           cardStyle: { justifyContent: "center" },
           tabBarIcon: ({ focused, size, color }) => (

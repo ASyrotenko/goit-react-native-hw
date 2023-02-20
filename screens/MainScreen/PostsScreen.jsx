@@ -1,12 +1,25 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+
+import { posts } from "../../posts";
 
 export const PostsScreen = ({ route }) => {
   const { login, email, image } = route.params;
 
-  console.log(image);
   return (
     <View>
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container}>
         <View style={styles.userPhotoWrap}>
           <Image
             source={
@@ -21,6 +34,112 @@ export const PostsScreen = ({ route }) => {
           <Text style={styles.userLoginText}>{login}</Text>
           <Text style={styles.userEmailText}>{email}</Text>
         </View>
+      </TouchableOpacity>
+      <View>
+        <SafeAreaView style={{ marginHorizontal: 16 }}>
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => (
+              <View style={{ marginBottom: 34 }}>
+                <View style={{ width: "100%", height: 240 }}>
+                  <Image
+                    source={{ uri: item.img }}
+                    style={{
+                      width: "100%",
+                      flex: 1,
+                      resizeMode: "cover",
+                      borderRadius: 16,
+                    }}
+                  />
+                </View>
+                <Text
+                  style={{
+                    marginTop: 8,
+                    fontFamily: "Roboto-Regular",
+                    fontSize: 16,
+                    color: "#212121",
+                  }}
+                >
+                  {item.title}
+                </Text>
+                <View
+                  style={{
+                    marginTop: 11,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <TouchableOpacity
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      {item.comments.length === 0 ? (
+                        <Ionicons
+                          name="md-chatbubble-outline"
+                          size={18}
+                          color="#BDBDBD"
+                        />
+                      ) : (
+                        <Ionicons
+                          name="ios-chatbubble"
+                          size={18}
+                          color="#FF6C00"
+                        />
+                      )}
+
+                      <Text
+                        style={{
+                          marginLeft: 8,
+                          fontFamily: "Roboto-Regular",
+                          fontSize: 16,
+                          color:
+                            item.comments.length === 0 ? "#BDBDBD" : "#212121",
+                        }}
+                      >
+                        {item.comments.length}
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginLeft: 27,
+                      }}
+                    >
+                      <AntDesign name="like2" size={18} color="#FF6C00" />
+                      <Text
+                        style={{
+                          marginLeft: 10,
+                          fontFamily: "Roboto-Regular",
+                          fontSize: 16,
+                          color: "#212121",
+                        }}
+                      >
+                        {item.likes}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                  >
+                    <Feather name="map-pin" size={24} color="#BDBDBD" />
+                    <Text
+                      style={{
+                        marginLeft: 8,
+                        fontFamily: "Roboto-Regular",
+                        fontSize: 16,
+                        textDecorationLine: "underline",
+                      }}
+                    >
+                      {item.location}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </SafeAreaView>
       </View>
     </View>
   );
