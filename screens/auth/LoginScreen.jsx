@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { StatusBar } from "expo-status-bar";
 import {
   Text,
@@ -9,7 +8,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
-  Dimensions,
 } from "react-native";
 import { styles } from "./auth-styles";
 
@@ -58,12 +56,7 @@ export const LoginScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground
         source={require("../../assets/images/bg_mount.jpg")}
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
+        style={styles.imgBackground}
       >
         <TouchableWithoutFeedback onPress={keyboardHide}>
           <View

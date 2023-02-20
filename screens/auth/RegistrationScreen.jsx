@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { StatusBar } from "expo-status-bar";
 import {
   Text,
@@ -10,7 +9,6 @@ import {
   Image,
   Keyboard,
   ImageBackground,
-  Dimensions,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { styles } from "./auth-styles";
@@ -89,12 +87,7 @@ export const RegistrationScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground
         source={require("../../assets/images/bg_mount.jpg")}
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          width: Dimensions.get("window").width,
-          height: Dimensions.get("window").height,
-        }}
+        style={styles.imgBackground}
       >
         <TouchableWithoutFeedback onPress={keyboardHide}>
           <View

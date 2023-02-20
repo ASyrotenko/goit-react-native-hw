@@ -16,47 +16,18 @@ const MainTab = createBottomTabNavigator();
 
 const CustomTabCreatePost = ({ children, onPress }) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={{ justifyContent: "center", alignItems: "center" }}
-    >
-      <View
-        style={{
-          backgroundColor: "#FF6C00",
-          width: 70,
-          height: 40,
-          borderRadius: 20,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {children}
-      </View>
+    <TouchableOpacity onPress={onPress} style={styles.createPostBtn}>
+      <View style={styles.createPostIconWrap}>{children}</View>
     </TouchableOpacity>
   );
 };
 
-const MyHeader = ({ title, navigation }) => {
+const CustomMainTabHeader = ({ title, navigation }) => {
   return (
-    <View
-      style={{
-        height: 88,
-        backgroundColor: "#ffffff",
-        borderBottomWidth: 1,
-        borderColor: "#F6F6F6",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        paddingBottom: 11,
-        position: "relative",
-      }}
-    >
-      <Text
-        style={{ fontFamily: "Roboto-Medium", fontSize: 17, color: "#212121" }}
-      >
-        {title}
-      </Text>
+    <View style={styles.headerWrap}>
+      <Text style={styles.headerText}>{title}</Text>
       <TouchableOpacity
-        style={{ position: "absolute", bottom: 10, right: 10 }}
+        style={styles.headerLogOutBtn}
         onPress={() => navigation.navigate("Login")}
       >
         <Feather name="log-out" size={24} color="#BDBDBD" />
@@ -90,7 +61,9 @@ export const Home = ({ navigation, route }) => {
           header: ({ navigation, route, options }) => {
             const title = getHeaderTitle(options, route.name);
 
-            return <MyHeader title={title} navigation={navigation} />;
+            return (
+              <CustomMainTabHeader title={title} navigation={navigation} />
+            );
           },
           headerStyle: { justifyContent: "center", alignItems: "center" },
           headerRight: () => (
@@ -152,12 +125,36 @@ export const Home = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  headerWrap: {
+    height: 88,
+    backgroundColor: "#ffffff",
+    borderBottomWidth: 1,
+    borderColor: "#F6F6F6",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingBottom: 11,
+    position: "relative",
+  },
+  headerText: {
+    fontFamily: "Roboto-Medium",
+    fontSize: 17,
+    color: "#212121",
+  },
+  headerLogOutBtn: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  addPostBtn: {
+  createPostBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  createPostIconWrap: {
     backgroundColor: "#FF6C00",
     width: 70,
     height: 40,

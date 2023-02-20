@@ -1,6 +1,12 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 export const styles = StyleSheet.create({
+  imgBackground: {
+    flex: 1,
+    justifyContent: "flex-end",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
   container: {
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,

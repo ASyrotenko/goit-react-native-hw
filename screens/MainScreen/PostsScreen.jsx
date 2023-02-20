@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 
 export const PostsScreen = ({ route }) => {
   const { login, email, image } = route.params;
+
   console.log(image);
   return (
     <View>
@@ -13,7 +14,11 @@ export const PostsScreen = ({ route }) => {
           }}
         >
           <Image
-            source={{ uri: image }}
+            source={
+              image
+                ? { uri: image }
+                : require("../../assets/images/user_photo_default.jpg")
+            }
             style={{
               width: "100%",
               flex: 1,
