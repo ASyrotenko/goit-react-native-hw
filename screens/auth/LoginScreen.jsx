@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 import { styles } from "./auth-styles";
 
@@ -54,104 +55,113 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <ImageBackground
-        source={require("../../assets/images/bg_mount.jpg")}
-        style={styles.imgBackground}
-      >
-        <TouchableWithoutFeedback onPress={keyboardHide}>
-          <View
-            style={{ ...styles.container, height: isKeyboardShown ? 248 : 489 }}
-            onPress={keyboardHide}
-          >
-            <View style={{ ...styles.form, paddingTop: 32 }}>
-              <Text style={styles.title}>Sing in</Text>
-              <View style={styles.inputsWrap}>
-                <View style={{ marginTop: 16 }}>
-                  <TextInput
-                    style={{
-                      ...styles.input,
-                      backgroundColor: isInputFocus.email
-                        ? "#ffffff"
-                        : "#F6F6F6",
-                      borderColor: isInputFocus.email ? "#FF6C00" : "#E8E8E8",
-                    }}
-                    placeholder={"E-mail address"}
-                    placeholderTextColor={"#BDBDBD"}
-                    value={state.email}
-                    onFocus={() => {
-                      setIsKeyboardShown(true);
-                      inputOnFocus("email");
-                    }}
-                    onBlur={() => {
-                      inputOnBlur("email");
-                    }}
-                    onChange={({ nativeEvent: { text } }) => {
-                      setState((prevState) => ({ ...prevState, email: text }));
-                    }}
-                  />
+      <ScrollView>
+        <ImageBackground
+          source={require("../../assets/images/bg_mount.jpg")}
+          style={styles.imgBackground}
+        >
+          <TouchableWithoutFeedback onPress={keyboardHide}>
+            <View
+              style={{
+                ...styles.container,
+                height: 489,
+                // height: isKeyboardShown ? 248 : 489,
+              }}
+              onPress={keyboardHide}
+            >
+              <View style={{ ...styles.form, paddingTop: 32 }}>
+                <Text style={styles.title}>Sing in</Text>
+                <View style={styles.inputsWrap}>
+                  <View style={{ marginTop: 16 }}>
+                    <TextInput
+                      style={{
+                        ...styles.input,
+                        backgroundColor: isInputFocus.email
+                          ? "#ffffff"
+                          : "#F6F6F6",
+                        borderColor: isInputFocus.email ? "#FF6C00" : "#E8E8E8",
+                      }}
+                      placeholder={"E-mail address"}
+                      placeholderTextColor={"#BDBDBD"}
+                      value={state.email}
+                      onFocus={() => {
+                        setIsKeyboardShown(true);
+                        inputOnFocus("email");
+                      }}
+                      onBlur={() => {
+                        inputOnBlur("email");
+                      }}
+                      onChange={({ nativeEvent: { text } }) => {
+                        setState((prevState) => ({
+                          ...prevState,
+                          email: text,
+                        }));
+                      }}
+                    />
+                  </View>
+                  <View style={{ marginTop: 16, position: "relative" }}>
+                    <TextInput
+                      style={{
+                        ...styles.input,
+                        backgroundColor: isInputFocus.password
+                          ? "#ffffff"
+                          : "#F6F6F6",
+                        borderColor: isInputFocus.password
+                          ? "#FF6C00"
+                          : "#E8E8E8",
+                      }}
+                      placeholder={"Password"}
+                      placeholderTextColor={"#BDBDBD"}
+                      secureTextEntry={isPasswordShown ? false : true}
+                      value={state.password}
+                      onFocus={() => {
+                        setIsKeyboardShown(true);
+                        inputOnFocus("password");
+                      }}
+                      onBlur={() => {
+                        inputOnBlur("password");
+                      }}
+                      onChange={({ nativeEvent: { text } }) =>
+                        setState((prevState) => ({
+                          ...prevState,
+                          password: text,
+                        }))
+                      }
+                    />
+                    <TouchableOpacity
+                      style={styles.showPasswordBtn}
+                      onPress={() =>
+                        setIsPasswordShown((prevState) => !prevState)
+                      }
+                    >
+                      <Text style={styles.showPasswordBtnText}>
+                        {isPasswordShown ? "Hide" : "Show"}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View style={{ marginTop: 16, position: "relative" }}>
-                  <TextInput
-                    style={{
-                      ...styles.input,
-                      backgroundColor: isInputFocus.password
-                        ? "#ffffff"
-                        : "#F6F6F6",
-                      borderColor: isInputFocus.password
-                        ? "#FF6C00"
-                        : "#E8E8E8",
-                    }}
-                    placeholder={"Password"}
-                    placeholderTextColor={"#BDBDBD"}
-                    secureTextEntry={isPasswordShown ? false : true}
-                    value={state.password}
-                    onFocus={() => {
-                      setIsKeyboardShown(true);
-                      inputOnFocus("password");
-                    }}
-                    onBlur={() => {
-                      inputOnBlur("password");
-                    }}
-                    onChange={({ nativeEvent: { text } }) =>
-                      setState((prevState) => ({
-                        ...prevState,
-                        password: text,
-                      }))
-                    }
-                  />
-                  <TouchableOpacity
-                    style={styles.showPasswordBtn}
-                    onPress={() =>
-                      setIsPasswordShown((prevState) => !prevState)
-                    }
-                  >
-                    <Text style={styles.showPasswordBtnText}>
-                      {isPasswordShown ? "Hide" : "Show"}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                  style={styles.formBtn}
+                  activeOpacity={0.7}
+                  onPress={onSubmit}
+                >
+                  <Text style={styles.formBtnText}>Sing in</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.singInLink}
+                  activeOpacity={0.7}
+                  onPress={() => navigation.navigate("Registration")}
+                >
+                  <Text style={styles.singInText}>
+                    Don't have an account? Sing up
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.formBtn}
-                activeOpacity={0.7}
-                onPress={onSubmit}
-              >
-                <Text style={styles.formBtnText}>Sing in</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.singInLink}
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate("Registration")}
-              >
-                <Text style={styles.singInText}>
-                  Don't have an account? Sing up
-                </Text>
-              </TouchableOpacity>
+              <StatusBar style="auto" />
             </View>
-            <StatusBar style="auto" />
-          </View>
-        </TouchableWithoutFeedback>
-      </ImageBackground>
+          </TouchableWithoutFeedback>
+        </ImageBackground>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };

@@ -7,7 +7,8 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
-  KeyboardAvoidingView,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -53,108 +54,122 @@ export const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <KeyboardAvoidingView
+      <View
         style={{
           ...styles.container,
         }}
       >
-        <View>
-          <TouchableOpacity style={styles.imgWrap} onPress={uploadImg}>
-            <View style={styles.imgContainer}>
-              <Image
-                source={
-                  state.image
-                    ? { uri: state.image }
-                    : require("../../assets/images/create_post_default_photo.jpg")
-                }
-                style={styles.img}
-              />
-            </View>
-            <TouchableOpacity style={styles.imgBtn} onPress={uploadImg}>
-              <Text style={styles.imgBtnText}>
-                {state.image ? "Edit photo" : "Upload photo"}
-              </Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-          <View style={styles.inputsContainer}>
-            <View style={styles.inputWrap}>
-              <TextInput
-                style={{ ...styles.input, marginTop: 32 }}
-                placeholder={"Name..."}
-                placeholderTextColor={"#BDBDBD"}
-                value={state.title}
-                onChange={({ nativeEvent: { text } }) =>
-                  setState((prevState) => ({
-                    ...prevState,
-                    title: text,
-                  }))
-                }
-              />
-            </View>
-            <View style={styles.inputWrap}>
-              <TextInput
-                style={{ ...styles.input, marginTop: 16 }}
-                placeholderTextColor={"#BDBDBD"}
-                value={state.location}
-                onChange={({ nativeEvent: { text } }) =>
-                  setState((prevState) => ({
-                    ...prevState,
-                    location: text,
-                  }))
-                }
-              />
-              <View
-                style={{
-                  ...styles.locationPlaceholderWrap,
-                  display: state.location ? "none" : "flex",
-                }}
-              >
-                <Feather name="map-pin" size={24} color="#BDBDBD" />
-                <Text style={styles.locationPlaceholderText}>Location...</Text>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={{ justifyContent: "space-between", flex: 1 }}>
+            <View>
+              <TouchableOpacity style={styles.imgWrap} onPress={uploadImg}>
+                <View style={styles.imgContainer}>
+                  <Image
+                    source={
+                      state.image
+                        ? { uri: state.image }
+                        : require("../../assets/images/create_post_default_photo.jpg")
+                    }
+                    style={styles.img}
+                  />
+                </View>
+                <TouchableOpacity style={styles.imgBtn} onPress={uploadImg}>
+                  <Text style={styles.imgBtnText}>
+                    {state.image ? "Edit photo" : "Upload photo"}
+                  </Text>
+                </TouchableOpacity>
+              </TouchableOpacity>
+              <View style={styles.inputsContainer}>
+                <View style={styles.inputWrap}>
+                  <TextInput
+                    style={{ ...styles.input, marginTop: 32 }}
+                    placeholder={"Name..."}
+                    placeholderTextColor={"#BDBDBD"}
+                    value={state.title}
+                    onChange={({ nativeEvent: { text } }) =>
+                      setState((prevState) => ({
+                        ...prevState,
+                        title: text,
+                      }))
+                    }
+                  />
+                </View>
+                <View style={styles.inputWrap}>
+                  <TextInput
+                    style={{ ...styles.input, marginTop: 16 }}
+                    placeholderTextColor={"#BDBDBD"}
+                    value={state.location}
+                    onChange={({ nativeEvent: { text } }) =>
+                      setState((prevState) => ({
+                        ...prevState,
+                        location: text,
+                      }))
+                    }
+                  />
+                  <View
+                    style={{
+                      ...styles.locationPlaceholderWrap,
+                      display: state.location ? "none" : "flex",
+                    }}
+                  >
+                    <Feather name="map-pin" size={24} color="#BDBDBD" />
+                    <Text style={styles.locationPlaceholderText}>
+                      Location...
+                    </Text>
+                  </View>
+                </View>
               </View>
-            </View>
-          </View>
-          <TouchableOpacity
-            style={{
-              ...styles.formBtn,
-              backgroundColor:
-                state.title.length === 0 ||
-                state.location.length === 0 ||
-                state.image == null
-                  ? "#F6F6F6"
-                  : "#FF6C00",
-            }}
-            activeOpacity={0.7}
-            disabled={
-              state.title.length === 0 ||
-              state.location.length === 0 ||
-              state.image == null
-                ? true
-                : false
-            }
-            onPress={onSubmit}
-          >
-            <Text
-              style={{
-                ...styles.formBtnText,
-                color:
+              <TouchableOpacity
+                style={{
+                  ...styles.formBtn,
+                  backgroundColor:
+                    state.title.length === 0 ||
+                    state.location.length === 0 ||
+                    state.image == null
+                      ? "#F6F6F6"
+                      : "#FF6C00",
+                }}
+                activeOpacity={0.7}
+                disabled={
                   state.title.length === 0 ||
                   state.location.length === 0 ||
                   state.image == null
-                    ? "#BDBDBD"
-                    : "#FFFFFF",
+                    ? true
+                    : false
+                }
+                onPress={onSubmit}
+              >
+                <Text
+                  style={{
+                    ...styles.formBtnText,
+                    color:
+                      state.title.length === 0 ||
+                      state.location.length === 0 ||
+                      state.image == null
+                        ? "#BDBDBD"
+                        : "#FFFFFF",
+                  }}
+                >
+                  Publish
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                alignItems: "center",
+                marginTop: 20,
               }}
             >
-              Publish
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity style={styles.clearAllBtn} onPress={clearAllFields}>
-            <AntDesign name="delete" size={24} color="#DADADA" />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+              <TouchableOpacity
+                style={{ ...styles.clearAllBtn }}
+                onPress={clearAllFields}
+              >
+                <AntDesign name="delete" size={24} color="#DADADA" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -162,11 +177,9 @@ export const CreatePostsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
     paddingRight: 16,
     paddingLeft: 16,
     paddingTop: 32,
-    paddingBottom: 32,
     backgroundColor: "#ffffff",
   },
   imgWrap: {},

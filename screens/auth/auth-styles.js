@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
   },
   container: {
+    position: "relative",
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
     width: "100%",
