@@ -73,13 +73,6 @@ export const Home = ({ navigation, route }) => {
             );
           },
           headerStyle: { justifyContent: "center", alignItems: "center" },
-          headerRight: () => (
-            <Button
-              onPress={() => alert("This is a button!")}
-              title="Press me"
-              color="#fff"
-            />
-          ),
           tabBarIcon: ({ focused, size, color }) => (
             <AntDesign
               name="appstore-o"
@@ -92,6 +85,7 @@ export const Home = ({ navigation, route }) => {
         component={PostsScreen}
       />
       <MainTab.Screen
+        initialParams={{ login, email, image }}
         options={{
           title: "Create Post",
           header: ({ route, options }) => {
@@ -110,15 +104,13 @@ export const Home = ({ navigation, route }) => {
         component={CreatePostsScreen}
       />
       <MainTab.Screen
+        initialParams={{ login, email, image }}
         options={{
           title: "Profile",
-          header: ({ navigation, route, options }) => {
-            const title = getHeaderTitle(options, route.name);
-
-            return (
-              <CustomMainTabHeader title={title} navigation={navigation} />
-            );
+          headerStyle: {
+            height: 0,
           },
+
           cardStyle: { justifyContent: "center" },
           tabBarIcon: ({ focused, size, color }) => (
             <Feather
