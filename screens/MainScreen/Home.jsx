@@ -123,6 +123,25 @@ export const Home = ({ navigation, route }) => {
         name="ProfileScreen"
         component={ProfileScreen}
       />
+      <MainTab.Screen
+        initialParams={{ login, email, image }}
+        options={{
+          title: "Comments",
+          tabBarVisible: false,
+          tabBarButton: () => null,
+          header: ({ route, options }) => {
+            const title = getHeaderTitle(options, route.name);
+
+            return (
+              <CustomMainTabHeader title={title} navigation={navigation} />
+            );
+          },
+
+          cardStyle: { justifyContent: "center" },
+        }}
+        name="CommentsScreen"
+        component={CommentsScreen}
+      />
     </MainTab.Navigator>
   );
 };

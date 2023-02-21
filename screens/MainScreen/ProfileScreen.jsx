@@ -12,10 +12,15 @@ import {
 import { Feather } from "@expo/vector-icons";
 
 import { posts } from "./../../posts";
-import { postsList } from "../../components/PostsList/PostsList";
+import { PostsList } from "../../components/PostsList/PostsList";
 
 export const ProfileScreen = ({ navigation, route }) => {
   const { login, email, image } = route.params;
+
+  const goToComments = (img, comments) => {
+    console.log(img, comments);
+    navigation.navigate("CommentsScreen", { img, comments });
+  };
 
   return (
     <View style={styles.wrap}>
@@ -46,7 +51,14 @@ export const ProfileScreen = ({ navigation, route }) => {
           <SafeAreaView>
             <FlatList
               data={posts}
-              renderItem={postsList}
+              renderItem={({ item }) => (
+                <PostsList
+                  item={item}
+                  onCommentsPress={() => {
+                    goToComments(item.img, item.comments);
+                  }}
+                />
+              )}
               keyExtractor={(item) => item.id}
             />
           </SafeAreaView>
@@ -90,7 +102,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -60,
     left: "50%",
-    transform: [{ translateX: -60 }],
+    transform: [{ translateX: -45 }],
   },
   loginWrap: {
     alignItems: "center",

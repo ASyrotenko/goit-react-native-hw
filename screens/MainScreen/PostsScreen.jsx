@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { postsList } from "../../components/PostsList/PostsList";
+import { PostsList } from "../../components/PostsList/PostsList";
 
 import { posts } from "../../posts";
 
@@ -37,7 +37,7 @@ export const PostsScreen = ({ route }) => {
         <SafeAreaView style={styles.postsList}>
           <FlatList
             data={posts}
-            renderItem={postsList}
+            renderItem={({ item }) => <PostsList item={item} />}
             keyExtractor={(item) => item.id}
           />
         </SafeAreaView>
