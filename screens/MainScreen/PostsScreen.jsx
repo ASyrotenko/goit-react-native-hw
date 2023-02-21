@@ -18,8 +18,8 @@ export const PostsScreen = ({ route }) => {
   const { login, email, image } = route.params;
 
   return (
-    <View>
-      <TouchableOpacity style={styles.container}>
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.userContainer}>
         <View style={styles.userPhotoWrap}>
           <Image
             source={
@@ -99,21 +99,26 @@ export const PostsScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    paddingBottom: 32,
+    paddingRight: 16,
+    paddingLeft: 16,
+    backgroundColor: "#ffffff",
+  },
+  userContainer: {
     paddingTop: 32,
     paddingBottom: 32,
-    paddingLeft: 16,
-    paddingRight: 16,
+    flexDirection: "row",
   },
   userPhotoWrap: {
     width: 60,
     height: 60,
+    borderRadius: 16,
+    backgroundColor: "#ffffff",
   },
   userPhoto: {
     width: "100%",
     flex: 1,
     resizeMode: "cover",
-    borderRadius: 16,
   },
   userInfoTextWrap: {
     marginLeft: 8,
@@ -131,9 +136,7 @@ const styles = StyleSheet.create({
     lineHeight: 13,
     color: "#212121",
   },
-  postsList: {
-    marginHorizontal: 16,
-  },
+  postsList: {},
   postItemContainer: {
     marginBottom: 34,
   },

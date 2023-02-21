@@ -1,4 +1,11 @@
-import { StyleSheet, TouchableOpacity, View, Button, Text } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Button,
+  Text,
+  Keyboard,
+} from "react-native";
 import { getHeaderTitle } from "@react-navigation/elements";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
