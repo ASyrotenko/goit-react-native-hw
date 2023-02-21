@@ -7,6 +7,7 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -52,7 +53,7 @@ export const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View
+      <KeyboardAvoidingView
         style={{
           ...styles.container,
         }}
@@ -153,7 +154,7 @@ export const CreatePostsScreen = () => {
             <AntDesign name="delete" size={24} color="#DADADA" />
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
