@@ -59,8 +59,8 @@ export const CreatePostsScreen = () => {
           ...styles.container,
         }}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <View style={{ justifyContent: "space-between", flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.scroll}>
+          <View style={styles.contentWrap}>
             <View>
               <TouchableOpacity style={styles.imgWrap} onPress={uploadImg}>
                 <View style={styles.imgContainer}>
@@ -181,6 +181,13 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingTop: 32,
     backgroundColor: "#ffffff",
+  },
+  scroll: {
+    flexGrow: 1,
+  },
+  contentWrap: {
+    justifyContent: "space-between",
+    flex: 1,
   },
   imgWrap: {},
   imgContainer: {
