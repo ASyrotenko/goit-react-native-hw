@@ -8,21 +8,24 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ScrollView,
-  Dimensions,
 } from "react-native";
+import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 const initialState = {
-  image: null,
+  image: "",
   title: "",
   location: "",
 };
 
-export const CreatePostsScreen = () => {
+export const CreatePostsScreen = ({ navigation }) => {
   const [state, setState] = useState(initialState);
+  const [camera, setCamera] = useState(null);
+  const [type, setType] = useState(CameraType.back);
 
   const keyboardHide = () => {
     Keyboard.dismiss();
@@ -43,8 +46,15 @@ export const CreatePostsScreen = () => {
     }
   };
 
+  const takePhoto = async () => {
+    const photo = await camera.takePictureAsync();
+    setState((prevState) => ({ ...prevState, image: photo.uri }));
+  };
+
   const onSubmit = () => {
     console.log(state);
+    const { image, location, title } = state;
+    navigation.navigate("PostsScreen", { image, location, title });
     setState(initialState);
   };
 
@@ -62,23 +72,74 @@ export const CreatePostsScreen = () => {
         <ScrollView contentContainerStyle={styles.scroll}>
           <View style={styles.contentWrap}>
             <View>
-              <TouchableOpacity style={styles.imgWrap} onPress={uploadImg}>
-                <View style={styles.imgContainer}>
-                  <Image
-                    source={
-                      state.image
-                        ? { uri: state.image }
-                        : require("../../assets/images/create_post_default_photo.jpg")
-                    }
-                    style={styles.img}
-                  />
+              <View
+                style={{
+                  height: 240,
+                  backgroundColor: "#E8E8E8",
+                  borderRadius: 8,
+                }}
+              >
+                {/* <View
+                  style={{
+                    height: 240,
+                    borderRadius: 8,
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                >
+                  {state.image && (
+                    <View
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        borderWidth: 1,
+                        zIndex: 1,
+                        width: "100%",
+                      }}
+                    >
+                      <Image
+                        source={{ uri: state.image }}
+                        style={{ height: 240, width: "100%" }}
+                      />
+                    </View>
+                  )}
+                  <Camera
+                    type={type}
+                    ref={setCamera}
+                    style={{
+                      borderRadius: 8,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={takePhoto}
+                      style={{
+                        width: 60,
+                        height: 60,
+                        backgroundColor: "rgba(255, 255, 255, 0.3)",
+                        borderRadius: 30,
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <FontAwesome name="camera" size={24} color="#ffffff" />
+                    </TouchableOpacity>
+                  </Camera>
                 </View>
-                <TouchableOpacity style={styles.imgBtn} onPress={uploadImg}>
-                  <Text style={styles.imgBtnText}>
-                    {state.image ? "Edit photo" : "Upload photo"}
-                  </Text>
-                </TouchableOpacity>
-              </TouchableOpacity>
+                {state.image && (
+                  <TouchableOpacity onPress={() => setState(prevState => ({...prevState, image: ''}))}>
+                    <Text
+                      style={{ marginTop: 8, fontSize: 16, color: "#BDBDBD" }}
+                    >
+                      Edit photo
+                    </Text>
+                  </TouchableOpacity>
+                )} */}
+              </View>
+
               <View style={styles.inputsContainer}>
                 <View style={styles.inputWrap}>
                   <TextInput
