@@ -1,97 +1,65 @@
+import { useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Image,
   SafeAreaView,
   FlatList,
+  TouchableOpacity,
+  TextInput,
+  Keyboard,
 } from "react-native";
-import { format } from "date-fns";
 
-const CommentsItem = ({ item }) => {
-  const date = item.date.split(" ");
-  const dateFormat = `${date[2]} ${date[1]}, ${date[3]} | ${date[4].slice(
-    0,
-    5
-  )}`;
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        marginBottom: 24,
-      }}
-    >
-      <View>
-        <Image
-          source={{ uri: item.userPhoto }}
-          style={{ width: 28, height: 28, borderRadius: 14 }}
-        />
-      </View>
-      <View
-        style={{
-          flex: 1,
-          marginLeft: 16,
-          padding: 16,
-          backgroundColor: "rgba(0, 0, 0, 0.03)",
-          borderTopRightRadius: 6,
-          borderBottomLeftRadius: 6,
-          borderBottomRightRadius: 6,
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: "Roboto-Regular",
-            color: "#212121",
-            fontSize: 13,
-          }}
-        >
-          {item.text}
-        </Text>
-        <Text
-          style={{
-            marginLeft: "auto",
-            marginTop: 8,
-            fontFamily: "Roboto-Regular",
-            fontSize: 10,
-            color: "#BDBDBD",
-          }}
-        >
-          {dateFormat}
-        </Text>
-      </View>
-    </View>
-  );
-};
+import { CommentsItem } from "../../components/CommentsList/CommentsList";
 
-export const CommentsScreen = ({ route }) => {
-  const { img, comments } = route.params;
+export const CommentsScreen = ({ navigation, route }) => {
+  const [comment, setComment] = useState("");
+  const { img, comments, prevScreen } = route.params;
+
+  const onSubmit = () => {
+    Keyboard.dismiss();
+    console.log(comment);
+    setComment("");
+  };
+
   return (
     <View style={styles.container}>
-      <View style={{ width: "100%", height: 240 }}>
-        <Image
-          source={{ uri: img }}
-          style={{
-            width: "100%",
-            flex: 1,
-            resizeMode: "cover",
-            borderRadius: 16,
-          }}
-        />
-      </View>
-      <View
-        style={{
-          flex: 1,
-          marginTop: 32,
-        }}
+      <TouchableOpacity
+        style={styles.goBackBtn}
+        onPress={() => navigation.navigate(prevScreen)}
       >
+        <MaterialIcons name="keyboard-backspace" size={24} color="#212121" />
+      </TouchableOpacity>
+      <View style={styles.imgWrap}>
+        <Image source={{ uri: img }} style={styles.img} />
+      </View>
+      <View style={styles.commentsListWrap}>
         <SafeAreaView>
           <FlatList
             data={comments}
-            renderItem={CommentsItem}
+            renderItem={({ item, index }) =>
+              CommentsItem(item, index, comments)
+            }
             keyExtractor={(item) => item.date}
           />
         </SafeAreaView>
+      </View>
+      <View style={styles.commentsInputWrap}>
+        <TextInput
+          placeholder="Comment..."
+          placeholderTextColor={"#BDBDBD"}
+          value={comment}
+          onChange={({ nativeEvent: { text } }) => {
+            setComment(text);
+          }}
+          style={styles.commentsInput}
+        />
+        <TouchableOpacity style={styles.commentsSubmitBtn} onPress={onSubmit}>
+          <AntDesign name="arrowup" size={14} color="#ffffff" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -103,5 +71,53 @@ const styles = StyleSheet.create({
     paddingTop: 32,
     paddingLeft: 16,
     paddingRight: 16,
+  },
+  goBackBtn: {
+    position: "absolute",
+    left: 16,
+    top: -34,
+    zIndex: 1,
+  },
+  imgWrap: {
+    width: "100%",
+    height: 240,
+  },
+  img: {
+    width: "100%",
+    flex: 1,
+    resizeMode: "cover",
+    borderRadius: 16,
+  },
+  commentsListWrap: {
+    flex: 1,
+    marginTop: 32,
+  },
+  commentsInputWrap: {
+    marginBottom: 16,
+    marginTop: 16,
+    position: "relative",
+  },
+  commentsInput: {
+    height: 50,
+    paddingLeft: 16,
+    paddingRight: 42,
+    backgroundColor: "#E8E8E8",
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+    borderRadius: 25,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+  },
+  commentsSubmitBtn: {
+    position: "absolute",
+    top: "50%",
+    transform: [{ translateY: -17 }],
+    right: 8,
+    width: 34,
+    height: 34,
+    backgroundColor: "#FF6C00",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 17,
   },
 });

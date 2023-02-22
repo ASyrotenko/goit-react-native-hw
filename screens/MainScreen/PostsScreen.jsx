@@ -12,8 +12,12 @@ import { PostsList } from "../../components/PostsList/PostsList";
 
 import { posts } from "../../posts";
 
-export const PostsScreen = ({ route }) => {
+export const PostsScreen = ({ navigation, route }) => {
   const { login, email, image } = route.params;
+
+  const goToComments = (img, comments, prevScreen) => {
+    navigation.navigate("CommentsScreen", { img, comments, prevScreen });
+  };
 
   return (
     <View style={styles.container}>
@@ -37,7 +41,14 @@ export const PostsScreen = ({ route }) => {
         <SafeAreaView style={styles.postsList}>
           <FlatList
             data={posts}
-            renderItem={({ item }) => <PostsList item={item} />}
+            renderItem={({ item }) => (
+              <PostsList
+                item={item}
+                onCommentsPress={() => {
+                  goToComments(item.img, item.comments, "PostsScreen");
+                }}
+              />
+            )}
             keyExtractor={(item) => item.id}
           />
         </SafeAreaView>

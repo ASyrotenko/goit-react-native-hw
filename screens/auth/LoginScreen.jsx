@@ -39,9 +39,10 @@ export const LoginScreen = ({ navigation }) => {
     if (state.password === "" || state.email === "") {
       return alert("Fill in all fields please!");
     }
+    const { email } = state;
     keyboardHide();
     console.log(state);
-    navigation.navigate("Home");
+    navigation.navigate("Home", { email });
     setState(initialState);
   };
 

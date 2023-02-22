@@ -17,9 +17,8 @@ import { PostsList } from "../../components/PostsList/PostsList";
 export const ProfileScreen = ({ navigation, route }) => {
   const { login, email, image } = route.params;
 
-  const goToComments = (img, comments) => {
-    console.log(img, comments);
-    navigation.navigate("CommentsScreen", { img, comments });
+  const goToComments = (img, comments, prevScreen) => {
+    navigation.navigate("CommentsScreen", { img, comments, prevScreen });
   };
 
   return (
@@ -55,7 +54,7 @@ export const ProfileScreen = ({ navigation, route }) => {
                 <PostsList
                   item={item}
                   onCommentsPress={() => {
-                    goToComments(item.img, item.comments);
+                    goToComments(item.img, item.comments, "ProfileScreen");
                   }}
                 />
               )}

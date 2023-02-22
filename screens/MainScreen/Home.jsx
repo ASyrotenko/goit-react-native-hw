@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Button,
-  Text,
-  Keyboard,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { getHeaderTitle } from "@react-navigation/elements";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -127,8 +120,8 @@ export const Home = ({ navigation, route }) => {
         initialParams={{ login, email, image }}
         options={{
           title: "Comments",
-          tabBarVisible: false,
           tabBarButton: () => null,
+          tabBarStyle: { display: "none" },
           header: ({ route, options }) => {
             const title = getHeaderTitle(options, route.name);
 
