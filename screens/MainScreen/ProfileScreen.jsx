@@ -15,6 +15,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { posts } from "./../../posts";
 import { PostsList } from "../../components/PostsList/PostsList";
+import { HeaderBackButton } from "./../../components/HeaderBackButtom/HeaderBackButtom";
 
 export const ProfileScreen = ({ navigation, route }) => {
   const { login, email, image, newPost } = route.params;
@@ -25,14 +26,6 @@ export const ProfileScreen = ({ navigation, route }) => {
       setAllPosts((prevState) => [newPost, ...prevState]);
     }
   }, [newPost]);
-
-  const goToComments = (img, comments, prevScreen) => {
-    navigation.navigate("CommentsScreen", { img, comments, prevScreen });
-  };
-
-  const goToMapScreen = (prevScreen) => {
-    navigation.navigate("MapScreen", { prevScreen });
-  };
 
   return (
     <View style={styles.wrap}>
@@ -50,12 +43,10 @@ export const ProfileScreen = ({ navigation, route }) => {
           }
           style={styles.userImg}
         />
-        <TouchableOpacity
+        <HeaderBackButton
+          navigation={navigation}
           style={{ position: "absolute", top: 22, right: 16 }}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Feather name="log-out" size={24} color="#BDBDBD" />
-        </TouchableOpacity>
+        />
         <View style={styles.loginWrap}>
           <Text style={styles.loginText}>{login}</Text>
         </View>
@@ -67,10 +58,13 @@ export const ProfileScreen = ({ navigation, route }) => {
                 <PostsList
                   item={item}
                   onCommentsPress={() => {
-                    goToComments(item.img, item.comments, "ProfileScreen");
+                    navigation.navigate("Comments", {
+                      img: item.img,
+                      comments: item.comments,
+                    });
                   }}
                   onMapPress={() => {
-                    goToMapScreen("ProfileScreen");
+                    navigation.navigate("Map");
                   }}
                 />
               )}

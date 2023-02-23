@@ -54,7 +54,12 @@ export const CreatePostsScreen = ({ navigation }) => {
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
     const location = await Location.getCurrentPositionAsync({});
-    setState((prevState) => ({ ...prevState, img: photo.uri }));
+    console.log("latitude", location.coords.latitude);
+    console.log("longitude", location.coords.longitude);
+    setState((prevState) => ({
+      ...prevState,
+      img: photo.uri,
+    }));
   };
 
   const onSubmit = () => {
