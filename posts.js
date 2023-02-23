@@ -42,7 +42,6 @@ export const posts = [
     location: "Ukraine",
   },
   {
-    id: 2,
     img: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Altja_j%C3%B5gi_Lahemaal.jpg",
     title: "Forest",
     comments: [

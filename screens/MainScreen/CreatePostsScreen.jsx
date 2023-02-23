@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,9 +10,11 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
+
 import { Camera, CameraType } from "expo-camera";
-import { useState } from "react";
+import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
+
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -50,6 +53,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync({});
     setState((prevState) => ({ ...prevState, img: photo.uri }));
   };
 
