@@ -1,6 +1,3 @@
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import { getHeaderTitle } from "@react-navigation/elements";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -8,33 +5,12 @@ import { Feather } from "@expo/vector-icons";
 
 import { PostsScreen } from "./PostsScreen";
 import { CreatePostsScreen } from "./CreatePostsScreen";
-import { CommentsScreen } from "./CommentsScreen";
 import { ProfileScreen } from "./ProfileScreen";
-import { MapScreen } from "./MapScreen";
+
+import { HeaderBackButton } from "./HeaderBackButtom";
+import { CustomTabCreatePost } from "./CustomTabCreatePost/CustomTabCreatePost";
 
 const MainTab = createBottomTabNavigator();
-
-const CustomTabCreatePost = ({ children, onPress }) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.createPostBtn}>
-      <View style={styles.createPostIconWrap}>{children}</View>
-    </TouchableOpacity>
-  );
-};
-
-const CustomMainTabHeader = ({ title, navigation }) => {
-  return (
-    <View style={styles.headerWrap}>
-      <Text style={styles.headerText}>{title}</Text>
-      <TouchableOpacity
-        style={styles.headerLogOutBtn}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Feather name="log-out" size={24} color="#BDBDBD" />
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 export const Home = ({ navigation, route }) => {
   const { login, email, image } = route.params;
@@ -43,13 +19,24 @@ export const Home = ({ navigation, route }) => {
     <MainTab.Navigator
       initialRouteName={"Posts"}
       screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          height: 88,
+          borderBottomWidth: 1,
+          borderColor: "#BDBDBD",
+        },
+        headerTitleStyle: {
+          color: "#212121",
+          fontFamily: "Roboto-Medium",
+          fontSize: 17,
+          letterSpacing: -0.408,
+        },
+        headerTitleAlign: "center",
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 83,
+          height: 88,
           borderTopWidth: 1,
           borderColor: "#F6F6F6",
-          paddingRight: 82,
-          paddingLeft: 82,
         },
       }}
     >
@@ -57,19 +44,10 @@ export const Home = ({ navigation, route }) => {
         initialParams={{ login, email, image }}
         options={{
           title: "Posts",
-
-          header: ({ navigation, route, options }) => {
-            const title = getHeaderTitle(options, route.name);
-
-            return (
-              <CustomMainTabHeader title={title} navigation={navigation} />
-            );
-          },
-          headerStyle: { justifyContent: "center", alignItems: "center" },
-          tabBarIcon: ({ focused, size, color }) => (
+          tabBarIcon: ({ focused }) => (
             <AntDesign
               name="appstore-o"
-              size={size}
+              size={24}
               color={focused ? "#FF6C00" : "#212121"}
             />
           ),
@@ -78,19 +56,12 @@ export const Home = ({ navigation, route }) => {
         component={PostsScreen}
       />
       <MainTab.Screen
-        initialParams={{ login, email, image }}
         options={{
+          headerShown: true,
           title: "Create Post",
-          header: ({ route, options }) => {
-            const title = getHeaderTitle(options, route.name);
-
-            return (
-              <CustomMainTabHeader title={title} navigation={navigation} />
-            );
-          },
-          tabBarIcon: ({ focused, size, color }) => (
-            <AntDesign name="plus" size={13} color="#ffffff" />
-          ),
+          headerLeft: () => null,
+          headerRight: () => <HeaderBackButton navigation={navigation} />,
+          tabBarIcon: () => <AntDesign name="plus" size={13} color="#ffffff" />,
           tabBarButton: (props) => <CustomTabCreatePost {...props} />,
         }}
         name="CreatePostsScreen"
@@ -100,15 +71,10 @@ export const Home = ({ navigation, route }) => {
         initialParams={{ login, email, image }}
         options={{
           title: "Profile",
-          headerStyle: {
-            height: 0,
-          },
-
-          cardStyle: { justifyContent: "center" },
-          tabBarIcon: ({ focused, size, color }) => (
+          tabBarIcon: ({ focused }) => (
             <Feather
               name="user"
-              size={size}
+              size={24}
               color={focused ? "#FF6C00" : "#212121"}
             />
           ),
@@ -116,65 +82,6 @@ export const Home = ({ navigation, route }) => {
         name="ProfileScreen"
         component={ProfileScreen}
       />
-      <MainTab.Screen
-        initialParams={{ login, email, image }}
-        options={{
-          title: "Comments",
-          tabBarButton: () => null,
-          tabBarStyle: { display: "none" },
-          header: ({ route, options }) => {
-            const title = getHeaderTitle(options, route.name);
-
-            return (
-              <CustomMainTabHeader title={title} navigation={navigation} />
-            );
-          },
-
-          cardStyle: { justifyContent: "center" },
-        }}
-        name="CommentsScreen"
-        component={CommentsScreen}
-      />
     </MainTab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  headerWrap: {
-    height: 88,
-    backgroundColor: "#ffffff",
-    borderBottomWidth: 1,
-    borderColor: "#F6F6F6",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: 11,
-    position: "relative",
-  },
-  headerText: {
-    fontFamily: "Roboto-Medium",
-    fontSize: 17,
-    color: "#212121",
-  },
-  headerLogOutBtn: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-  },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  createPostBtn: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  createPostIconWrap: {
-    backgroundColor: "#FF6C00",
-    width: 70,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

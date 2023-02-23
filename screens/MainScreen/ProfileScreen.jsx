@@ -30,6 +30,10 @@ export const ProfileScreen = ({ navigation, route }) => {
     navigation.navigate("CommentsScreen", { img, comments, prevScreen });
   };
 
+  const goToMapScreen = (prevScreen) => {
+    navigation.navigate("MapScreen", { prevScreen });
+  };
+
   return (
     <View style={styles.wrap}>
       <ImageBackground
@@ -64,6 +68,9 @@ export const ProfileScreen = ({ navigation, route }) => {
                   item={item}
                   onCommentsPress={() => {
                     goToComments(item.img, item.comments, "ProfileScreen");
+                  }}
+                  onMapPress={() => {
+                    goToMapScreen("ProfileScreen");
                   }}
                 />
               )}

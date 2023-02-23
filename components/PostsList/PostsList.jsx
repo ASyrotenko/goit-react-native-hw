@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { styles } from "./posts-list";
 
-export const PostsList = ({ item, onCommentsPress }) => {
+export const PostsList = ({ item, onCommentsPress, onMapPress }) => {
   return (
     <View style={styles.postItemContainer}>
       <View style={styles.postItemImgContainer}>
@@ -43,7 +43,10 @@ export const PostsList = ({ item, onCommentsPress }) => {
             <Text style={styles.postItemLikeCount}>{item.likes}</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.postItemLocationWrap}>
+        <TouchableOpacity
+          style={styles.postItemLocationWrap}
+          onPress={onMapPress}
+        >
           <Feather name="map-pin" size={24} color="#BDBDBD" />
           <Text style={styles.postItemLocationText}>{item.location}</Text>
         </TouchableOpacity>
