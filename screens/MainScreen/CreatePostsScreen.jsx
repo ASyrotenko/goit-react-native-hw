@@ -89,7 +89,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                   borderRadius: 8,
                 }}
               >
-                {/* <View
+                <View
                   style={{
                     height: 240,
                     borderRadius: 8,
@@ -140,14 +140,18 @@ export const CreatePostsScreen = ({ navigation }) => {
                   </Camera>
                 </View>
                 {state.img && (
-                  <TouchableOpacity onPress={() => setState(prevState => ({...prevState, image: ''}))}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      setState((prevState) => ({ ...prevState, image: "" }))
+                    }
+                  >
                     <Text
                       style={{ marginTop: 8, fontSize: 16, color: "#BDBDBD" }}
                     >
                       Edit photo
                     </Text>
                   </TouchableOpacity>
-                )} */}
+                )}
               </View>
 
               <View style={styles.inputsContainer}>
