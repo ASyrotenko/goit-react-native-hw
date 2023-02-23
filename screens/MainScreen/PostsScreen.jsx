@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import {
   Image,
   StyleSheet,
@@ -13,7 +15,16 @@ import { PostsList } from "../../components/PostsList/PostsList";
 import { posts } from "../../posts";
 
 export const PostsScreen = ({ navigation, route }) => {
-  const { login, email, image } = route.params;
+  const { login, email, image, newPost } = route.params;
+  const [allPosts, setAllPosts] = useState([...posts]);
+
+  useEffect(() => {
+    if (newPost) {
+      setAllPosts((prevState) => [newPost, ...prevState]);
+    }
+  }, [newPost]);
+
+  console.log(allPosts);
 
   const goToComments = (img, comments, prevScreen) => {
     navigation.navigate("CommentsScreen", { img, comments, prevScreen });
@@ -40,7 +51,7 @@ export const PostsScreen = ({ navigation, route }) => {
       <View style={{ flex: 1 }}>
         <SafeAreaView style={styles.postsList}>
           <FlatList
-            data={posts}
+            data={allPosts}
             renderItem={({ item }) => (
               <PostsList
                 item={item}
@@ -49,7 +60,7 @@ export const PostsScreen = ({ navigation, route }) => {
                 }}
               />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, indx) => indx.toString()}
           />
         </SafeAreaView>
       </View>

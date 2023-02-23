@@ -17,9 +17,11 @@ import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 const initialState = {
-  image: "",
+  img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKFSgdhQvBlZO6I8s-jtKIYOED1NqEs4xEjA&usqp=CAU",
   title: "",
   location: "",
+  comments: [],
+  likes: 0,
 };
 
 export const CreatePostsScreen = ({ navigation }) => {
@@ -41,20 +43,19 @@ export const CreatePostsScreen = ({ navigation }) => {
     if (!userImage.canceled) {
       setState((prevState) => ({
         ...prevState,
-        image: userImage.assets[0].uri,
+        img: userImage.assets[0].uri,
       }));
     }
   };
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    setState((prevState) => ({ ...prevState, image: photo.uri }));
+    setState((prevState) => ({ ...prevState, img: photo.uri }));
   };
 
   const onSubmit = () => {
-    console.log(state);
-    const { image, location, title } = state;
-    navigation.navigate("PostsScreen", { image, location, title });
+    const newPost = state;
+    navigation.navigate("PostsScreen", { newPost });
     setState(initialState);
   };
 
@@ -100,7 +101,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                       }}
                     >
                       <Image
-                        source={{ uri: state.image }}
+                        source={{ uri: state.img }}
                         style={{ height: 240, width: "100%" }}
                       />
                     </View>
@@ -129,7 +130,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                     </TouchableOpacity>
                   </Camera>
                 </View>
-                {state.image && (
+                {state.img && (
                   <TouchableOpacity onPress={() => setState(prevState => ({...prevState, image: ''}))}>
                     <Text
                       style={{ marginTop: 8, fontSize: 16, color: "#BDBDBD" }}
@@ -186,7 +187,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                   backgroundColor:
                     state.title.length === 0 ||
                     state.location.length === 0 ||
-                    state.image == null
+                    state.img == null
                       ? "#F6F6F6"
                       : "#FF6C00",
                 }}
@@ -194,7 +195,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                 disabled={
                   state.title.length === 0 ||
                   state.location.length === 0 ||
-                  state.image == null
+                  state.img == null
                     ? true
                     : false
                 }
@@ -206,7 +207,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                     color:
                       state.title.length === 0 ||
                       state.location.length === 0 ||
-                      state.image == null
+                      state.img == null
                         ? "#BDBDBD"
                         : "#FFFFFF",
                   }}

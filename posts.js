@@ -6,7 +6,6 @@ function getRandomDate() {
 
 export const posts = [
   {
-    id: 1,
     img: "https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg",
     title: "Tree in the field",
     comments: [
