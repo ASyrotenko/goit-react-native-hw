@@ -14,28 +14,18 @@ import { posts } from "../../posts";
 import { PostsList } from "./../../components/PostsList/PostsList";
 
 export const DefaultPostsScreen = ({ navigation, route }) => {
-  //   const { login, email, image, newPost } = route.params;
+  const { login, email, image, newPost } = route.params;
   const [allPosts, setAllPosts] = useState([...posts]);
 
-  //   useEffect(() => {
-  //     if (newPost) {
-  //       setAllPosts((prevState) => [newPost, ...prevState]);
-  //     }
-  //   }, [newPost]);
-
-  //   console.log(allPosts);
-
-  //   const goToComments = (img, comments, prevScreen) => {
-  //     navigation.navigate("CommentsScreen", { prevScreen });
-  //   };
-
-  //   const goToMapScreen = (prevScreen) => {
-  //     navigation.navigate("MapScreen", { prevScreen });
-  //   };
+  useEffect(() => {
+    if (newPost) {
+      setAllPosts((prevState) => [newPost, ...prevState]);
+    }
+  }, [newPost]);
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.userContainer}>
+      <TouchableOpacity style={styles.userContainer}>
         <View style={styles.userPhotoWrap}>
           <Image
             source={
@@ -50,7 +40,7 @@ export const DefaultPostsScreen = ({ navigation, route }) => {
           <Text style={styles.userLoginText}>{login}</Text>
           <Text style={styles.userEmailText}>{email}</Text>
         </View>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <View style={{ flex: 1 }}>
         <SafeAreaView style={styles.postsList}>
           <FlatList
@@ -59,7 +49,10 @@ export const DefaultPostsScreen = ({ navigation, route }) => {
               <PostsList
                 item={item}
                 onCommentsPress={() => {
-                  navigation.navigate("Comments");
+                  navigation.navigate("Comments", {
+                    img: item.img,
+                    comments: item.comments,
+                  });
                 }}
                 onMapPress={() => {
                   navigation.navigate("Map");

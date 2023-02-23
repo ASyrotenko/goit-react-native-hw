@@ -59,7 +59,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const onSubmit = () => {
     const newPost = state;
-    navigation.navigate("PostsScreen", { newPost });
+    navigation.navigate("Posts", { newPost });
     setState(initialState);
   };
 

@@ -10,14 +10,13 @@ import {
   Keyboard,
 } from "react-native";
 
-import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 import { CommentsItem } from "../../components/CommentsList/CommentsList";
 
-export const CommentsScreen = ({ navigation, route }) => {
+export const CommentsScreen = ({ route }) => {
   const [comment, setComment] = useState("");
-  const { img, comments, prevScreen } = route.params;
+  const { img, comments } = route.params;
 
   const onSubmit = () => {
     Keyboard.dismiss();
@@ -27,12 +26,6 @@ export const CommentsScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.goBackBtn}
-        onPress={() => navigation.navigate(prevScreen)}
-      >
-        <MaterialIcons name="keyboard-backspace" size={24} color="#212121" />
-      </TouchableOpacity>
       <View style={styles.imgWrap}>
         <Image source={{ uri: img }} style={styles.img} />
       </View>

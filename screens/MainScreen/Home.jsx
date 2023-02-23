@@ -1,4 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  getFocusedRouteNameFromRoute,
+  NavigationContainer,
+} from "@react-navigation/native";
 
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -42,8 +46,15 @@ export const Home = ({ navigation, route }) => {
     >
       <MainTab.Screen
         initialParams={{ login, email, image }}
-        options={{
+        options={({ route }) => ({
           title: "Posts",
+          tabBarStyle: ((route) => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+            if (routeName !== "Posts") {
+              return { display: "none" };
+            }
+            return { height: 88, borderTopWidth: 1, borderColor: "#F6F6F6" };
+          })(route),
           tabBarIcon: ({ focused }) => (
             <AntDesign
               name="appstore-o"
@@ -51,7 +62,7 @@ export const Home = ({ navigation, route }) => {
               color={focused ? "#FF6C00" : "#212121"}
             />
           ),
-        }}
+        })}
         name="PostsScreen"
         component={PostsScreen}
       />
