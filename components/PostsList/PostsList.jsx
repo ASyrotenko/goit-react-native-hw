@@ -1,10 +1,8 @@
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-
-import { styles } from "./posts-list";
 
 export const PostsList = ({ item, onCommentsPress, onMapPress }) => {
   return (
@@ -54,3 +52,64 @@ export const PostsList = ({ item, onCommentsPress, onMapPress }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  postItemContainer: {
+    marginBottom: 34,
+  },
+  postItemImgContainer: {
+    width: "100%",
+    height: 240,
+  },
+  postItemImg: {
+    width: "100%",
+    flex: 1,
+    resizeMode: "cover",
+    borderRadius: 16,
+  },
+  postItemTitle: {
+    marginTop: 8,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: "#212121",
+  },
+  postItemInfoContainer: {
+    marginTop: 11,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  postItemRateContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  postItemCommentWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  postItemCommentsCount: {
+    marginLeft: 8,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+  },
+  postItemLikeWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 27,
+  },
+  postItemLikeCount: {
+    marginLeft: 10,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: "#212121",
+  },
+  postItemLocationWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  postItemLocationText: {
+    marginLeft: 8,
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    textDecorationLine: "underline",
+  },
+});

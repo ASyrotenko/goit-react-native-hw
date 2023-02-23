@@ -7,7 +7,7 @@ import { PostsScreen } from "./PostsScreen";
 import { CreatePostsScreen } from "./CreatePostsScreen";
 import { ProfileScreen } from "./ProfileScreen";
 
-import { HeaderBackButton } from "./HeaderBackButtom";
+import { HeaderBackButton } from "../../components/HeaderBackButtom/HeaderBackButtom";
 import { CustomTabCreatePost } from "./CustomTabCreatePost/CustomTabCreatePost";
 
 const MainTab = createBottomTabNavigator();

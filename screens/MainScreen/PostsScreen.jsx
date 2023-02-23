@@ -4,7 +4,7 @@ import { DefaultPostsScreen } from "./../nestedScreens/DefaultPostsScreen";
 import { MapScreen } from "./../nestedScreens/MapScreen";
 import { CommentsScreen } from "./../nestedScreens/CommentsScreen";
 
-import { HeaderBackButton } from "./HeaderBackButtom";
+import { HeaderBackButton } from "../../components/HeaderBackButtom/HeaderBackButtom";
 
 const NestedScreen = createStackNavigator();
 
