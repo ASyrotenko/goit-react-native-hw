@@ -49,7 +49,7 @@ export const Home = ({ navigation, route }) => {
         options={({ route }) => ({
           title: "Posts",
           tabBarStyle: ((route) => {
-            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "Posts";
             if (routeName !== "Posts") {
               return { display: "none" };
             }
