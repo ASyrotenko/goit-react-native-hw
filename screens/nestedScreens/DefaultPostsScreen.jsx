@@ -14,18 +14,21 @@ import { posts } from "../../posts";
 import { PostsList } from "./../../components/PostsList/PostsList";
 
 export const DefaultPostsScreen = ({ navigation, route }) => {
-  const { login, email, image, newPost } = route.params;
+  // const { login, email, image, newPost } = route.params;
+  // const { newPost } = route.params;
+
   const [allPosts, setAllPosts] = useState([...posts]);
 
-  useEffect(() => {
-    if (newPost) {
-      setAllPosts((prevState) => [newPost, ...prevState]);
-    }
-  }, [newPost]);
+  // useEffect(() => {
+  //   if (route.params.newPost) {
+  //     const { newPost } = route.params;
+  //     setAllPosts((prevState) => [newPost, ...prevState]);
+  //   }
+  // }, [newPost]);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.userContainer}>
+      {/* <TouchableOpacity style={styles.userContainer}>
         <View style={styles.userPhotoWrap}>
           <Image
             source={
@@ -40,7 +43,7 @@ export const DefaultPostsScreen = ({ navigation, route }) => {
           <Text style={styles.userLoginText}>{login}</Text>
           <Text style={styles.userEmailText}>{email}</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <View style={{ flex: 1 }}>
         <SafeAreaView style={styles.postsList}>
           <FlatList

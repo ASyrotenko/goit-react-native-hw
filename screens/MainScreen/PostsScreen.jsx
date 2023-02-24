@@ -9,7 +9,7 @@ import { HeaderBackButton } from "../../components/HeaderBackButtom/HeaderBackBu
 const NestedScreen = createStackNavigator();
 
 export const PostsScreen = ({ navigation, route }) => {
-  const { login, email, image, newPost } = route.params;
+  // const { login, email, image, newPost } = route.params;
 
   return (
     <NestedScreen.Navigator
@@ -29,7 +29,7 @@ export const PostsScreen = ({ navigation, route }) => {
       }}
     >
       <NestedScreen.Screen
-        initialParams={{ login, email, image }}
+        // initialParams={{ login, email, image }}
         name="Posts"
         component={DefaultPostsScreen}
         options={{

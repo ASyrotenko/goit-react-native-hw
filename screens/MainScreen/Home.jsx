@@ -17,7 +17,7 @@ import { CustomTabCreatePost } from "../../components/CustomTabCreatePost/Custom
 const MainTab = createBottomTabNavigator();
 
 export const Home = ({ navigation, route }) => {
-  const { login, email, image } = route.params;
+  // const { login, email, image } = route.params;
 
   return (
     <MainTab.Navigator
@@ -45,7 +45,7 @@ export const Home = ({ navigation, route }) => {
       }}
     >
       <MainTab.Screen
-        initialParams={{ login, email, image }}
+        // initialParams={{ login, email, image }}
         options={({ route }) => ({
           title: "Posts",
           tabBarStyle: ((route) => {
@@ -79,7 +79,7 @@ export const Home = ({ navigation, route }) => {
         component={CreatePostsScreen}
       />
       <MainTab.Screen
-        initialParams={{ login, email, image }}
+        // initialParams={{ login, email, image }}
         options={{
           title: "Profile",
           tabBarIcon: ({ focused }) => (

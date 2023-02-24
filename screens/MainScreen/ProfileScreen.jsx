@@ -18,14 +18,14 @@ import { PostsList } from "../../components/PostsList/PostsList";
 import { HeaderBackButton } from "./../../components/HeaderBackButtom/HeaderBackButtom";
 
 export const ProfileScreen = ({ navigation, route }) => {
-  const { login, email, image, newPost } = route.params;
+  // const { login, email, image, newPost } = route.params;
   const [allPosts, setAllPosts] = useState([...posts]);
 
-  useEffect(() => {
-    if (newPost) {
-      setAllPosts((prevState) => [newPost, ...prevState]);
-    }
-  }, [newPost]);
+  // useEffect(() => {
+  //   if (newPost) {
+  //     setAllPosts((prevState) => [newPost, ...prevState]);
+  //   }
+  // }, [newPost]);
 
   return (
     <View style={styles.wrap}>
@@ -36,11 +36,12 @@ export const ProfileScreen = ({ navigation, route }) => {
 
       <View style={styles.container}>
         <Image
-          source={
-            image
-              ? { uri: image }
-              : require("../../assets/images/user_photo_default.jpg")
-          }
+          // source={
+          //   image
+          //     ? { uri: image }
+          //     : require("../../assets/images/user_photo_default.jpg")
+          // }
+          source={require("../../assets/images/user_photo_default.jpg")}
           style={styles.userImg}
         />
         <HeaderBackButton
@@ -48,7 +49,7 @@ export const ProfileScreen = ({ navigation, route }) => {
           style={{ position: "absolute", top: 22, right: 16 }}
         />
         <View style={styles.loginWrap}>
-          <Text style={styles.loginText}>{login}</Text>
+          {/* <Text style={styles.loginText}>{login}</Text> */}
         </View>
         <View style={styles.listWrap}>
           <SafeAreaView>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { StatusBar } from "expo-status-bar";
 import {
   Text,
@@ -11,6 +12,7 @@ import {
   ScrollView,
 } from "react-native";
 import { styles } from "./auth-styles";
+import { authSignInUser } from "../../redux/auth/authOperations";
 
 const initialState = {
   email: "",
@@ -26,6 +28,8 @@ export const LoginScreen = ({ navigation }) => {
     password: false,
   });
 
+  const dispatch = useDispatch();
+
   Keyboard.addListener("keyboardDidHide", () => {
     setIsKeyboardShown(false);
   });
@@ -39,10 +43,11 @@ export const LoginScreen = ({ navigation }) => {
     if (state.password === "" || state.email === "") {
       return alert("Fill in all fields please!");
     }
-    const { email } = state;
+    dispatch(authSignInUser(state));
+    // const { email } = state;
     keyboardHide();
-    console.log(state);
-    navigation.navigate("Home", { email });
+    // console.log(state);
+    // navigation.navigate("Home", { email });
     setState(initialState);
   };
 

@@ -13,6 +13,7 @@ import {
   ScrollView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+
 import { styles } from "./auth-styles";
 
 import { authSignUpUser } from "../../redux/auth/authOperations";
@@ -41,7 +42,7 @@ export const RegistrationScreen = ({ navigation }) => {
   });
 
   const addUserImage = async () => {
-    let userImage = await ImagePicker.launchImageLibraryAsync({
+    const userImage = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 4],
@@ -79,7 +80,7 @@ export const RegistrationScreen = ({ navigation }) => {
     //   email,
     //   image,
     // });
-    // setState(initialState);
+    setState(initialState);
   };
 
   const inputOnFocus = (value) => {
