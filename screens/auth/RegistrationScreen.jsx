@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { StatusBar } from "expo-status-bar";
 import {
   Text,
@@ -13,6 +14,8 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { styles } from "./auth-styles";
+
+import { authSignUpUser } from "../../redux/auth/authOperations";
 
 const initialState = {
   image: null,
@@ -31,6 +34,8 @@ export const RegistrationScreen = ({ navigation }) => {
     password: false,
   });
 
+  const dispatch = useDispatch();
+
   Keyboard.addListener("keyboardDidHide", () => {
     setIsKeyboardShown(false);
   });
@@ -43,10 +48,12 @@ export const RegistrationScreen = ({ navigation }) => {
       quality: 1,
     });
     if (!userImage.canceled) {
-      setState((prevState) => ({
-        ...prevState,
-        image: userImage.assets[0].uri,
-      }));
+      setState((prevState) => {
+        return {
+          ...prevState,
+          image: userImage.assets[0].uri,
+        };
+      });
     }
   };
 
@@ -64,15 +71,14 @@ export const RegistrationScreen = ({ navigation }) => {
       return alert("Fill in all fields please!");
     }
 
-    const { login, email, image } = state;
-
     keyboardHide();
-    console.log(state);
-    navigation.navigate("Home", {
-      login,
-      email,
-      image,
-    });
+    dispatch(authSignUpUser(state));
+    // console.log(state);
+    // navigation.navigate("Home", {
+    //   login,
+    //   email,
+    //   image,
+    // });
     // setState(initialState);
   };
 
@@ -104,6 +110,7 @@ export const RegistrationScreen = ({ navigation }) => {
                     source={{ uri: state.image }}
                     style={styles.userPhoto}
                   />
+
                   {state.image ? (
                     <TouchableOpacity
                       style={{
