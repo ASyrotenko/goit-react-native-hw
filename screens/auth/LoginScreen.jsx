@@ -44,10 +44,7 @@ export const LoginScreen = ({ navigation }) => {
       return alert("Fill in all fields please!");
     }
     dispatch(authSignInUser(state));
-    // const { email } = state;
     keyboardHide();
-    // console.log(state);
-    // navigation.navigate("Home", { email });
     setState(initialState);
   };
 
@@ -71,7 +68,6 @@ export const LoginScreen = ({ navigation }) => {
               style={{
                 ...styles.container,
                 height: 489,
-                // height: isKeyboardShown ? 248 : 489,
               }}
               onPress={keyboardHide}
             >
