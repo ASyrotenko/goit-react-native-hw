@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { app } from "../../firebase/config";
 import { authSlice } from "./authReducer";
@@ -18,6 +19,8 @@ export const authSignUpUser =
       await updateProfile(auth.currentUser, {
         displayName: login,
       });
+
+      console.log(auth.currentUser);
 
       const { displayName, uid } = auth.currentUser;
 
@@ -38,4 +41,12 @@ export const authSignInUser =
     }
   };
 export const authSignOutUser = () => async (dispatch, getState) => {};
-export const authStateChangeUser = () => async (dispatch, getState) => {};
+
+export const authStateChangeUser = () => async (dispatch, getState) => {
+  await onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUser(user);
+    } else {
+    }
+  });
+};
