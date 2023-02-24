@@ -21,6 +21,10 @@ export default function App() {
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });
 
+  useEffect(() => {
+    console.log("render");
+  }, []);
+
   if (!fontsLoaded) {
     return null;
   }
@@ -32,8 +36,8 @@ export default function App() {
     }
   });
 
-  const routing = useRoute(true);
-
+  const routing = useRoute(user);
+  console.log(routing);
   return (
     <Provider store={store}>
       <NavigationContainer>{routing}</NavigationContainer>
