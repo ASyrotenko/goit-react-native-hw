@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { app } from "../../firebase/config";
 import { authSlice } from "./authReducer";
@@ -40,12 +41,25 @@ export const authSignInUser =
       console.log("error.message", error.message);
     }
   };
-export const authSignOutUser = () => async (dispatch, getState) => {};
+export const authSignOutUser = () => async (dispatch, getState) => {
+  await signOut(auth);
+};
 
 export const authStateChangeUser = () => async (dispatch, getState) => {
   await onAuthStateChanged(auth, (user) => {
     if (user) {
-      setUser(user);
+      dispatch(
+        authSlice.actions.updateUserProfile({
+          userId: user.uid,
+          login: user.displayName,
+        })
+      );
+
+      dispatch(
+        authSlice.actions.authStateChange({
+          stateChange: true,
+        })
+      );
     } else {
     }
   });
