@@ -20,9 +20,9 @@ import { authSignUpUser } from "../../redux/auth/authOperations";
 
 const initialState = {
   image: null,
-  login: "",
-  email: "",
-  password: "",
+  login: "Test",
+  email: "test@gmail.com",
+  password: "123456",
 };
 
 export const RegistrationScreen = ({ navigation }) => {
