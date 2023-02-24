@@ -16,9 +16,9 @@ import { styles } from "./auth-styles";
 
 const initialState = {
   image: null,
-  login: "User Name",
-  email: "useremail@email.com",
-  password: "123",
+  login: "",
+  email: "",
+  password: "",
 };
 
 export const RegistrationScreen = ({ navigation }) => {
