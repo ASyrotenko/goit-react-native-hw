@@ -21,7 +21,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./../../firebase/config";
 
 const initialState = {
@@ -118,7 +118,13 @@ export const CreatePostsScreen = ({ navigation }) => {
     const file = await response.blob();
     const uniquePostId = Date.now().toString();
     const mountainImagesRef = ref(storage, `postImage/${uniquePostId}`);
-    uploadBytes(mountainImagesRef, file);
+    await uploadBytes(mountainImagesRef, file);
+
+    const processedPhoto = await getDownloadURL(
+      ref(storage, `postImage/${uniquePostId}`)
+    );
+
+    console.log("processedPhoto", processedPhoto);
   };
 
   return (
