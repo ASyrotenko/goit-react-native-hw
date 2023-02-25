@@ -84,7 +84,6 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    console.log(photo);
     setState((prevState) => ({
       ...prevState,
       img: photo.uri,
@@ -138,70 +137,23 @@ export const CreatePostsScreen = ({ navigation }) => {
         <ScrollView contentContainerStyle={styles.scroll}>
           <View style={styles.contentWrap}>
             <View>
-              <View
-                style={{
-                  height: 240,
-                  backgroundColor: "#E8E8E8",
-                  borderRadius: 8,
-                }}
-              >
-                <View
-                  style={{
-                    height: 240,
-                    borderRadius: 8,
-                    overflow: "hidden",
-                    position: "relative",
-                  }}
-                >
+              <View style={styles.cameraContainer}>
+                <View style={styles.cameraWrap}>
                   {state.img && (
-                    <View
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        borderWidth: 1,
-                        zIndex: 1,
-                        width: "100%",
-                      }}
-                    >
-                      <Image
-                        source={{ uri: state.img }}
-                        style={{ height: 240, width: "100%" }}
-                      />
+                    <View style={styles.photoWrap}>
+                      <Image source={{ uri: state.img }} style={styles.photo} />
                     </View>
                   )}
-                  <Camera
-                    type={type}
-                    ref={setCamera}
-                    style={{
-                      position: "relative",
-                      height: 240,
-                      borderRadius: 8,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
+                  <Camera type={type} ref={setCamera} style={styles.camera}>
                     <TouchableOpacity
                       onPress={takePhoto}
-                      style={{
-                        width: 60,
-                        height: 60,
-                        backgroundColor: "rgba(255, 255, 255, 0.3)",
-                        borderRadius: 30,
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
+                      style={styles.takePhotoBtn}
                     >
                       <FontAwesome name="camera" size={24} color="#ffffff" />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={toggleCameraType}
-                      style={{
-                        position: "absolute",
-                        top: 15,
-                        right: 15,
-                      }}
+                      style={styles.toggleCameraBtn}
                     >
                       <MaterialIcons
                         name="flip-camera-android"
@@ -342,6 +294,50 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingTop: 32,
     backgroundColor: "#ffffff",
+  },
+  cameraContainer: {
+    height: 240,
+    backgroundColor: "#E8E8E8",
+    borderRadius: 8,
+  },
+  cameraWrap: {
+    height: 240,
+    borderRadius: 8,
+    overflow: "hidden",
+    position: "relative",
+  },
+  photoWrap: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    borderWidth: 1,
+    zIndex: 1,
+    width: "100%",
+  },
+  photo: {
+    height: 240,
+    width: "100%",
+  },
+  camera: {
+    position: "relative",
+    height: 240,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  takePhotoBtn: {
+    width: 60,
+    height: 60,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  toggleCameraBtn: {
+    position: "absolute",
+    top: 15,
+    right: 15,
   },
   scroll: {
     flexGrow: 1,
