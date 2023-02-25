@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import {
   StyleSheet,
@@ -11,21 +12,27 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native";
+
 import { Feather } from "@expo/vector-icons";
 
-// import { posts } from "./../../posts";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase/config";
+
 import { PostsList } from "../../components/PostsList/PostsList";
 import { HeaderBackButton } from "./../../components/HeaderBackButtom/HeaderBackButtom";
 
 export const ProfileScreen = ({ navigation, route }) => {
-  // const { login, email, image, newPost } = route.params;
-  // const [allPosts, setAllPosts] = useState([...posts]);
+  const [posts, setPosts] = useState([]);
+  const { userId, login } = useSelector((state) => state.auth);
 
-  // useEffect(() => {
-  //   if (newPost) {
-  //     setAllPosts((prevState) => [newPost, ...prevState]);
-  //   }
-  // }, [newPost]);
+  const getAllPost = async () => {
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    setPosts(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
+  };
+
+  useEffect(() => {
+    getAllPost();
+  }, []);
 
   return (
     <View style={styles.wrap}>
@@ -36,11 +43,6 @@ export const ProfileScreen = ({ navigation, route }) => {
 
       <View style={styles.container}>
         <Image
-          // source={
-          //   image
-          //     ? { uri: image }
-          //     : require("../../assets/images/user_photo_default.jpg")
-          // }
           source={require("../../assets/images/user_photo_default.jpg")}
           style={styles.userImg}
         />
@@ -49,29 +51,29 @@ export const ProfileScreen = ({ navigation, route }) => {
           style={{ position: "absolute", top: 22, right: 16 }}
         />
         <View style={styles.loginWrap}>
-          {/* <Text style={styles.loginText}>{login}</Text> */}
+          <Text style={styles.loginText}>{login}</Text>
         </View>
         <View style={styles.listWrap}>
-          {/* <SafeAreaView>
+          <SafeAreaView>
             <FlatList
-              data={allPosts}
+              data={posts}
               renderItem={({ item }) => (
                 <PostsList
                   item={item}
-                  onCommentsPress={() => {
-                    navigation.navigate("Comments", {
-                      img: item.img,
-                      comments: item.comments,
-                    });
-                  }}
-                  onMapPress={() => {
-                    navigation.navigate("Map");
-                  }}
+                  // onCommentsPress={() => {
+                  //   navigation.navigate("Comments", {
+                  //     img: item.img,
+                  //     comments: item.comments,
+                  //   });
+                  // }}
+                  // onMapPress={() => {
+                  //   navigation.navigate("Map");
+                  // }}
                 />
               )}
               keyExtractor={(item, indx) => indx.toString()}
             />
-          </SafeAreaView> */}
+          </SafeAreaView>
         </View>
       </View>
     </View>

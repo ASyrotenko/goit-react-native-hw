@@ -13,10 +13,9 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
-// import { posts } from "../../posts";
 import { PostsList } from "./../../components/PostsList/PostsList";
 
-export const DefaultPostsScreen = ({ navigation, route }) => {
+export const DefaultPostsScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
 
   const getAllPost = async () => {
