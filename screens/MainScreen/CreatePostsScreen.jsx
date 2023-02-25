@@ -28,8 +28,7 @@ const initialState = {
   img: null,
   title: "",
   location: "",
-  comments: [],
-  likes: 0,
+  locationProps: "",
 };
 
 export const CreatePostsScreen = ({ navigation }) => {
@@ -58,10 +57,11 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      const location = await Location.getCurrentPositionAsync({});
+      const locationProps = await Location.getCurrentPositionAsync({});
+
       setState((prevState) => ({
         ...prevState,
-        location,
+        locationProps,
       }));
     })();
   }, []);
@@ -222,7 +222,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                   <View
                     style={{
                       ...styles.locationPlaceholderWrap,
-                      display: state.location ? "none" : "flex",
+                      display: state.location.length ? "none" : "flex",
                     }}
                   >
                     <Feather name="map-pin" size={24} color="#BDBDBD" />
