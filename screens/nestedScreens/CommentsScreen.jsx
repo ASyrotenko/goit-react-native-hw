@@ -45,7 +45,6 @@ export const CommentsScreen = ({ route }) => {
     setAllComments(
       querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
-    console.log(allComments);
   };
 
   return (

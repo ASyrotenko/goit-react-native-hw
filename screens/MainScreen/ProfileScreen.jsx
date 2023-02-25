@@ -8,14 +8,11 @@ import {
   ImageBackground,
   Image,
   Dimensions,
-  TouchableOpacity,
   SafeAreaView,
   FlatList,
 } from "react-native";
 
-import { Feather } from "@expo/vector-icons";
-
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
 import { PostsList } from "../../components/PostsList/PostsList";
@@ -25,14 +22,16 @@ export const ProfileScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
   const { userId, login } = useSelector((state) => state.auth);
 
-  const getAllPost = async () => {
-    const querySnapshot = await getDocs(collection(db, "posts"));
+  useEffect(() => {
+    getUserPosts();
+  }, []);
+
+  const getUserPosts = async () => {
+    const postsRef = await collection(db, "posts");
+    const q = await query(postsRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
     setPosts(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
-
-  useEffect(() => {
-    getAllPost();
-  }, []);
 
   return (
     <View style={styles.wrap}>
