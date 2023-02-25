@@ -22,7 +22,7 @@ export const DefaultPostsScreen = ({ navigation }) => {
 
   const getAllPost = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
-    setPosts(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
+    setPosts(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
   useEffect(() => {
@@ -50,16 +50,15 @@ export const DefaultPostsScreen = ({ navigation }) => {
             renderItem={({ item }) => (
               <PostsList
                 item={item}
-                // onCommentsPress={() => {
-                //   navigation.navigate("Comments", {
-                //     img: item.img,
-                //     comments: item.comments,
-                //   });
-                // }}
+                onCommentsPress={() => {
+                  navigation.navigate("Comments", {
+                    img: item.img,
+                    postId: item.id,
+                  });
+                }}
                 onMapPress={() => {
                   navigation.navigate("Map", { location: item.locationProps });
                 }}
-                navigation={navigation}
               />
             )}
             keyExtractor={(item, indx) => indx.toString()}

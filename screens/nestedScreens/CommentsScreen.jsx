@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import {
   StyleSheet,
   View,
@@ -12,15 +13,36 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 
+import { doc, setDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../firebase/config";
+
 import { CommentsItem } from "../../components/CommentsList/CommentsList";
 
 export const CommentsScreen = ({ route }) => {
   const [comment, setComment] = useState("");
+  const { userId, login } = useSelector((state) => state.auth);
   const { img, comments } = route.params;
+  const postId = route.params.postId;
 
-  const onSubmit = () => {
+  // const createPost = async () => {
+  //   await setDoc(doc(db, "posts", postId), {
+  //     name: "Los Angeles",
+  //     state: "CA",
+  //     country: "USA",
+  //   });
+  //   await setDoc(doc(db, "posts", postId(doc(db, "comments"))), {
+  //     comment,
+  //     login,
+  //   });
+  // };
+
+  const onSubmit = async () => {
+    const docRef = await addDoc(collection(db, `posts/${postId}`, "comments"), {
+      comment,
+      login,
+    });
     Keyboard.dismiss();
-    console.log(comment);
     setComment("");
   };
 
@@ -31,13 +53,13 @@ export const CommentsScreen = ({ route }) => {
       </View>
       <View style={styles.commentsListWrap}>
         <SafeAreaView>
-          <FlatList
+          {/* <FlatList
             data={comments}
             renderItem={({ item, index }) =>
               CommentsItem(item, index, comments)
             }
             keyExtractor={(item) => item.date}
-          />
+          /> */}
         </SafeAreaView>
       </View>
       <View style={styles.commentsInputWrap}>
