@@ -10,6 +10,8 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+
 import { useSelector } from "react-redux";
 
 import { Camera, CameraType } from "expo-camera";
@@ -22,7 +24,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+
 import { storage } from "./../../firebase/config";
+import { db } from "./../../firebase/config";
 
 const initialState = {
   img: null,
@@ -39,13 +44,12 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const { userId, login } = useSelector((state) => state.auth);
 
-  console.log("createPostScreen", state);
-
   function toggleCameraType() {
     setType((current) =>
       current === CameraType.back ? CameraType.front : CameraType.back
     );
   }
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const getPermission = async () => {
@@ -61,7 +65,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
       setState((prevState) => ({
         ...prevState,
-        locationProps,
+        locationProps: locationProps.coords,
       }));
     })();
   }, []);
@@ -94,19 +98,18 @@ export const CreatePostsScreen = ({ navigation }) => {
   };
 
   const onSubmit = () => {
-    const newPost = state;
-    uploadPhotoToServer();
-    // navigation.navigate("Posts", { newPost });
-    // setState(initialState);
+    uploadPostToServer();
+    navigation.navigate("Posts");
+    setState(initialState);
   };
 
   const uploadPostToServer = async () => {
-    const photo = await uploadPhotoToServer();
-    const { img, title, location } = state;
-    const createPost = await db
-      .firestore()
-      .collection("posts")
-      .add({ img, title, location: location.coords, userId, login });
+    await uploadPhotoToServer();
+    const createPost = await addDoc(collection(db, "posts"), {
+      ...state,
+      userId,
+      login,
+    });
   };
 
   const clearAllFields = () => {
@@ -124,7 +127,7 @@ export const CreatePostsScreen = ({ navigation }) => {
       ref(storage, `postImage/${uniquePostId}`)
     );
 
-    console.log("processedPhoto", processedPhoto);
+    setState((prevState) => ({ ...prevState, img: processedPhoto }));
   };
 
   return (
@@ -144,24 +147,26 @@ export const CreatePostsScreen = ({ navigation }) => {
                       <Image source={{ uri: state.img }} style={styles.photo} />
                     </View>
                   )}
-                  <Camera type={type} ref={setCamera} style={styles.camera}>
-                    <TouchableOpacity
-                      onPress={takePhoto}
-                      style={styles.takePhotoBtn}
-                    >
-                      <FontAwesome name="camera" size={24} color="#ffffff" />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={toggleCameraType}
-                      style={styles.toggleCameraBtn}
-                    >
-                      <MaterialIcons
-                        name="flip-camera-android"
-                        size={24}
-                        color="#ffffff"
-                      />
-                    </TouchableOpacity>
-                  </Camera>
+                  {isFocused && (
+                    <Camera type={type} ref={setCamera} style={styles.camera}>
+                      <TouchableOpacity
+                        onPress={takePhoto}
+                        style={styles.takePhotoBtn}
+                      >
+                        <FontAwesome name="camera" size={24} color="#ffffff" />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={toggleCameraType}
+                        style={styles.toggleCameraBtn}
+                      >
+                        <MaterialIcons
+                          name="flip-camera-android"
+                          size={24}
+                          color="#ffffff"
+                        />
+                      </TouchableOpacity>
+                    </Camera>
+                  )}
                 </View>
                 {state.img && (
                   <TouchableOpacity
