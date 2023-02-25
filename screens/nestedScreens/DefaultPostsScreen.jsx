@@ -10,14 +10,31 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { posts } from "../../posts";
+import db from "../../firebase/config";
+
+// import { posts } from "../../posts";
 import { PostsList } from "./../../components/PostsList/PostsList";
 
 export const DefaultPostsScreen = ({ navigation, route }) => {
   // const { login, email, image, newPost } = route.params;
   // const { newPost } = route.params;
 
-  const [allPosts, setAllPosts] = useState([...posts]);
+  const [posts, setPosts] = useState([]);
+
+  const getAllPost = async () => {
+    await db
+      .firestore()
+      .collection("posts")
+      .onSnapshot((data) =>
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+      );
+  };
+
+  useEffect(() => {
+    getAllPost();
+  }, []);
+
+  // const [allPosts, setAllPosts] = useState([...posts]);
 
   // useEffect(() => {
   //   if (route.params.newPost) {
@@ -47,7 +64,7 @@ export const DefaultPostsScreen = ({ navigation, route }) => {
       <View style={{ flex: 1 }}>
         <SafeAreaView style={styles.postsList}>
           <FlatList
-            data={allPosts}
+            data={posts}
             renderItem={({ item }) => (
               <PostsList
                 item={item}
@@ -58,7 +75,7 @@ export const DefaultPostsScreen = ({ navigation, route }) => {
                   });
                 }}
                 onMapPress={() => {
-                  navigation.navigate("Map");
+                  navigation.navigate("Map", { item: item.location });
                 }}
               />
             )}

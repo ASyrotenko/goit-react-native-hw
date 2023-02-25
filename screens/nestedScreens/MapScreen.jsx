@@ -3,19 +3,20 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export const MapScreen = ({ navigation, route }) => {
+  const { latitude, longitude } = route.params.location;
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
         <MapView
           style={{ flex: 1 }}
           initialRegion={{
-            latitude: 50.51633,
-            longitude: 30.602185,
+            latitude,
+            longitude,
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
         >
-          <Marker coordinate={{ latitude: 50.51633, longitude: 30.602185 }} />
+          <Marker coordinate={{ latitude, longitude }} />
         </MapView>
       </View>
     </View>

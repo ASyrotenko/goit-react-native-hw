@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,17 +10,20 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 import { Camera, CameraType } from "expo-camera";
 import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
+
+import { db } from "../../firebase/config";
 
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 const initialState = {
-  img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKFSgdhQvBlZO6I8s-jtKIYOED1NqEs4xEjA&usqp=CAU",
+  img: null,
   title: "",
   location: "",
   comments: [],
@@ -31,12 +34,33 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [state, setState] = useState(initialState);
   const [camera, setCamera] = useState(null);
   const [type, setType] = useState(CameraType.back);
+  const [hasPermission, setHasPermission] = useState(null);
+
+  const { userId, login } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const getPermission = async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === "granted");
+    };
+    getPermission();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const location = await Location.getCurrentPositionAsync({});
+      setState((prevState) => ({
+        ...prevState,
+        location,
+      }));
+    })();
+  }, []);
 
   const keyboardHide = () => {
     Keyboard.dismiss();
   };
 
-  const uploadImg = async () => {
+  const uploadPhoto = async () => {
     let userImage = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -53,9 +77,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync({});
-    console.log("latitude", location.coords.latitude);
-    console.log("longitude", location.coords.longitude);
+    console.log(photo);
     setState((prevState) => ({
       ...prevState,
       img: photo.uri,
@@ -64,12 +86,39 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const onSubmit = () => {
     const newPost = state;
+    uploadPhotoToServer();
     navigation.navigate("Posts", { newPost });
     setState(initialState);
   };
 
+  const uploadPostToServer = async () => {
+    const photo = await uploadPhotoToServer();
+    const { img, title, location } = state;
+    const createPost = await db
+      .firestore()
+      .collection("posts")
+      .add({ img, title, location: location.coords, userId, login });
+  };
+
   const clearAllFields = () => {
     setState(initialState);
+  };
+
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(state.img);
+    const file = await response.blob();
+
+    const uniquePostId = Date.now().toString();
+
+    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+
+    const processedPhoto = await db
+      .storage()
+      .ref("postImage")
+      .child(uniquePostId)
+      .getDownloadURL();
+
+    return processedPhoto;
   };
 
   return (
@@ -89,7 +138,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                   borderRadius: 8,
                 }}
               >
-                {/* <View
+                <View
                   style={{
                     height: 240,
                     borderRadius: 8,
@@ -97,7 +146,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                     position: "relative",
                   }}
                 >
-                  {state.image && (
+                  {state.img && (
                     <View
                       style={{
                         position: "absolute",
@@ -119,6 +168,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                     type={type}
                     ref={setCamera}
                     style={{
+                      height: 240,
                       borderRadius: 8,
                       alignItems: "center",
                       justifyContent: "center",
@@ -142,7 +192,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                 {state.img && (
                   <TouchableOpacity
                     onPress={() =>
-                      setState((prevState) => ({ ...prevState, image: "" }))
+                      setState((prevState) => ({ ...prevState, img: null }))
                     }
                   >
                     <Text
@@ -151,7 +201,21 @@ export const CreatePostsScreen = ({ navigation }) => {
                       Edit photo
                     </Text>
                   </TouchableOpacity>
-                )} */}
+                )}
+                {!state.img && (
+                  <TouchableOpacity onPress={uploadPhoto}>
+                    <Text
+                      style={{
+                        marginLeft: "auto",
+                        marginTop: 8,
+                        fontSize: 16,
+                        color: "#BDBDBD",
+                      }}
+                    >
+                      Upload photo
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
 
               <View style={styles.inputsContainer}>
