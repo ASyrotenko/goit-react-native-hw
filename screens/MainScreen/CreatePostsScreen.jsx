@@ -16,12 +16,13 @@ import { Camera, CameraType } from "expo-camera";
 import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
 
-import { db } from "../../firebase/config";
-
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "./../../firebase/config";
 
 const initialState = {
   img: null,
@@ -38,6 +39,8 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
 
   const { userId, login } = useSelector((state) => state.auth);
+
+  console.log("createPostScreen", state);
 
   function toggleCameraType() {
     setType((current) =>
@@ -67,7 +70,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
-  const uploadPhoto = async () => {
+  const uploadPhotoFromGallery = async () => {
     let userImage = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -93,8 +96,8 @@ export const CreatePostsScreen = ({ navigation }) => {
   const onSubmit = () => {
     const newPost = state;
     uploadPhotoToServer();
-    navigation.navigate("Posts", { newPost });
-    setState(initialState);
+    // navigation.navigate("Posts", { newPost });
+    // setState(initialState);
   };
 
   const uploadPostToServer = async () => {
@@ -113,18 +116,9 @@ export const CreatePostsScreen = ({ navigation }) => {
   const uploadPhotoToServer = async () => {
     const response = await fetch(state.img);
     const file = await response.blob();
-
     const uniquePostId = Date.now().toString();
-
-    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
-
-    const processedPhoto = await db
-      .storage()
-      .ref("postImage")
-      .child(uniquePostId)
-      .getDownloadURL();
-
-    return processedPhoto;
+    const mountainImagesRef = ref(storage, `postImage/${uniquePostId}`);
+    uploadBytes(mountainImagesRef, file);
   };
 
   return (
@@ -177,7 +171,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                   </TouchableOpacity>
                 )}
                 {!state.img && (
-                  <TouchableOpacity onPress={uploadPhoto}>
+                  <TouchableOpacity onPress={uploadPhotoFromGallery}>
                     <Text
                       style={{
                         marginLeft: "auto",
@@ -243,13 +237,13 @@ export const CreatePostsScreen = ({ navigation }) => {
                       : "#FF6C00",
                 }}
                 activeOpacity={0.7}
-                disabled={
-                  state.title.length === 0 ||
-                  state.location.length === 0 ||
-                  state.img == null
-                    ? true
-                    : false
-                }
+                // disabled={
+                //   state.title.length === 0 ||
+                //   state.location.length === 0 ||
+                //   state.img == null
+                //     ? true
+                //     : false
+                // }
                 onPress={onSubmit}
               >
                 <Text
