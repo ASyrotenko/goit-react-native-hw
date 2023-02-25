@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 
 export const CommentsItem = (item, index, comments) => {
-  const date = item.date.split(" ");
-  const dateFormat = `${date[2]} ${date[1]}, ${date[3]} | ${date[4].slice(
-    0,
-    5
-  )}`;
+  // const date = item.date.split(" ");
+  // const dateFormat = `${date[2]} ${date[1]}, ${date[3]} | ${date[4].slice(
+  //   0,
+  //   5
+  // )}`;
 
   // const currentUser = item.userName;
   // const prevUser = comments[index - 1]?.userName;
@@ -23,7 +23,8 @@ export const CommentsItem = (item, index, comments) => {
       }}
     >
       <View>
-        <Image source={{ uri: item.userPhoto }} style={styles.userPhoto} />
+        <Text>{item.login}</Text>
+        {/* <Image source={{ uri: item.userPhoto }} style={styles.userPhoto} /> */}
       </View>
       <View
         style={{
@@ -33,8 +34,8 @@ export const CommentsItem = (item, index, comments) => {
           ...styles.commentWrap,
         }}
       >
-        <Text style={styles.commentText}>{item.text}</Text>
-        <Text style={styles.commentDate}>{dateFormat}</Text>
+        <Text style={styles.commentText}>{item.comment}</Text>
+        {/* <Text style={styles.commentDate}>{dateFormat}</Text> */}
       </View>
     </View>
   );

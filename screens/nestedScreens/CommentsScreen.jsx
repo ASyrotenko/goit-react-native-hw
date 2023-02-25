@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   StyleSheet,
@@ -13,29 +13,21 @@ import {
 
 import { AntDesign } from "@expo/vector-icons";
 
-import { doc, setDoc } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
 import { CommentsItem } from "../../components/CommentsList/CommentsList";
 
 export const CommentsScreen = ({ route }) => {
   const [comment, setComment] = useState("");
+  const [allComments, setAllComments] = useState([]);
   const { userId, login } = useSelector((state) => state.auth);
   const { img, comments } = route.params;
   const postId = route.params.postId;
 
-  // const createPost = async () => {
-  //   await setDoc(doc(db, "posts", postId), {
-  //     name: "Los Angeles",
-  //     state: "CA",
-  //     country: "USA",
-  //   });
-  //   await setDoc(doc(db, "posts", postId(doc(db, "comments"))), {
-  //     comment,
-  //     login,
-  //   });
-  // };
+  useEffect(() => {
+    getAllPost();
+  }, []);
 
   const onSubmit = async () => {
     const docRef = await addDoc(collection(db, `posts/${postId}`, "comments"), {
@@ -46,6 +38,16 @@ export const CommentsScreen = ({ route }) => {
     setComment("");
   };
 
+  const getAllPost = async () => {
+    const querySnapshot = await getDocs(
+      collection(db, `posts/${postId}/comments`)
+    );
+    setAllComments(
+      querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    );
+    console.log(allComments);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imgWrap}>
@@ -53,13 +55,13 @@ export const CommentsScreen = ({ route }) => {
       </View>
       <View style={styles.commentsListWrap}>
         <SafeAreaView>
-          {/* <FlatList
-            data={comments}
+          <FlatList
+            data={allComments}
             renderItem={({ item, index }) =>
-              CommentsItem(item, index, comments)
+              CommentsItem(item, index, allComments)
             }
-            keyExtractor={(item) => item.date}
-          /> */}
+            keyExtractor={(item) => item.id}
+          />
         </SafeAreaView>
       </View>
       <View style={styles.commentsInputWrap}>
