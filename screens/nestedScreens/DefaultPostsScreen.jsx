@@ -10,38 +10,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import db from "../../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase/config";
 
 // import { posts } from "../../posts";
 import { PostsList } from "./../../components/PostsList/PostsList";
 
 export const DefaultPostsScreen = ({ navigation, route }) => {
-  // const { login, email, image, newPost } = route.params;
-  // const { newPost } = route.params;
-
   const [posts, setPosts] = useState([]);
 
   const getAllPost = async () => {
-    await db
-      .firestore()
-      .collection("posts")
-      .onSnapshot((data) =>
-        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      );
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    setPosts(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
   };
 
   useEffect(() => {
     getAllPost();
   }, []);
-
-  // const [allPosts, setAllPosts] = useState([...posts]);
-
-  // useEffect(() => {
-  //   if (route.params.newPost) {
-  //     const { newPost } = route.params;
-  //     setAllPosts((prevState) => [newPost, ...prevState]);
-  //   }
-  // }, [newPost]);
 
   return (
     <View style={styles.container}>
@@ -68,15 +53,15 @@ export const DefaultPostsScreen = ({ navigation, route }) => {
             renderItem={({ item }) => (
               <PostsList
                 item={item}
-                onCommentsPress={() => {
-                  navigation.navigate("Comments", {
-                    img: item.img,
-                    comments: item.comments,
-                  });
-                }}
-                onMapPress={() => {
-                  navigation.navigate("Map", { item: item.location });
-                }}
+                // onCommentsPress={() => {
+                //   navigation.navigate("Comments", {
+                //     img: item.img,
+                //     comments: item.comments,
+                //   });
+                // }}
+                // onMapPress={() => {
+                //   navigation.navigate("Map", { item: item.location });
+                // }}
               />
             )}
             keyExtractor={(item, indx) => indx.toString()}

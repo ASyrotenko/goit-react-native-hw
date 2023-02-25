@@ -13,13 +13,13 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-import { posts } from "./../../posts";
+// import { posts } from "./../../posts";
 import { PostsList } from "../../components/PostsList/PostsList";
 import { HeaderBackButton } from "./../../components/HeaderBackButtom/HeaderBackButtom";
 
 export const ProfileScreen = ({ navigation, route }) => {
   // const { login, email, image, newPost } = route.params;
-  const [allPosts, setAllPosts] = useState([...posts]);
+  // const [allPosts, setAllPosts] = useState([...posts]);
 
   // useEffect(() => {
   //   if (newPost) {
@@ -52,7 +52,7 @@ export const ProfileScreen = ({ navigation, route }) => {
           {/* <Text style={styles.loginText}>{login}</Text> */}
         </View>
         <View style={styles.listWrap}>
-          <SafeAreaView>
+          {/* <SafeAreaView>
             <FlatList
               data={allPosts}
               renderItem={({ item }) => (
@@ -71,7 +71,7 @@ export const ProfileScreen = ({ navigation, route }) => {
               )}
               keyExtractor={(item, indx) => indx.toString()}
             />
-          </SafeAreaView>
+          </SafeAreaView> */}
         </View>
       </View>
     </View>
