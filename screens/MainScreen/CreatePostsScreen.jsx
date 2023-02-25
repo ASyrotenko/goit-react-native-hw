@@ -21,6 +21,7 @@ import { db } from "../../firebase/config";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const initialState = {
   img: null,
@@ -37,6 +38,12 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
 
   const { userId, login } = useSelector((state) => state.auth);
+
+  function toggleCameraType() {
+    setType((current) =>
+      current === CameraType.back ? CameraType.front : CameraType.back
+    );
+  }
 
   useEffect(() => {
     const getPermission = async () => {
@@ -168,6 +175,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                     type={type}
                     ref={setCamera}
                     style={{
+                      position: "relative",
                       height: 240,
                       borderRadius: 8,
                       alignItems: "center",
@@ -186,6 +194,20 @@ export const CreatePostsScreen = ({ navigation }) => {
                       }}
                     >
                       <FontAwesome name="camera" size={24} color="#ffffff" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={toggleCameraType}
+                      style={{
+                        position: "absolute",
+                        top: 15,
+                        right: 15,
+                      }}
+                    >
+                      <MaterialIcons
+                        name="flip-camera-android"
+                        size={24}
+                        color="#ffffff"
+                      />
                     </TouchableOpacity>
                   </Camera>
                 </View>
