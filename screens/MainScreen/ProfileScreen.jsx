@@ -66,9 +66,11 @@ export const ProfileScreen = ({ navigation, route }) => {
                   //     comments: item.comments,
                   //   });
                   // }}
-                  // onMapPress={() => {
-                  //   navigation.navigate("Map");
-                  // }}
+                  onMapPress={() => {
+                    navigation.navigate("Map", {
+                      location: item.locationProps,
+                    });
+                  }}
                 />
               )}
               keyExtractor={(item, indx) => indx.toString()}

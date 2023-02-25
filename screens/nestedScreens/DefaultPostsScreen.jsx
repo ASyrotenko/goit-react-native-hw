@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import {
   Image,
@@ -17,6 +18,7 @@ import { PostsList } from "./../../components/PostsList/PostsList";
 
 export const DefaultPostsScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
+  const { userId, login } = useSelector((state) => state.auth);
 
   const getAllPost = async () => {
     const querySnapshot = await getDocs(collection(db, "posts"));
@@ -29,22 +31,18 @@ export const DefaultPostsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity style={styles.userContainer}>
+      <TouchableOpacity style={styles.userContainer}>
         <View style={styles.userPhotoWrap}>
           <Image
-            source={
-              image
-                ? { uri: image }
-                : require("../../assets/images/user_photo_default.jpg")
-            }
+            source={require("../../assets/images/user_photo_default.jpg")}
             style={styles.userPhoto}
           />
         </View>
         <View style={styles.userInfoTextWrap}>
           <Text style={styles.userLoginText}>{login}</Text>
-          <Text style={styles.userEmailText}>{email}</Text>
+          {/* <Text style={styles.userEmailText}>{email}</Text> */}
         </View>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <View style={{ flex: 1 }}>
         <SafeAreaView style={styles.postsList}>
           <FlatList
@@ -58,9 +56,10 @@ export const DefaultPostsScreen = ({ navigation }) => {
                 //     comments: item.comments,
                 //   });
                 // }}
-                // onMapPress={() => {
-                //   navigation.navigate("Map", { item: item.location });
-                // }}
+                onMapPress={() => {
+                  navigation.navigate("Map", { location: item.locationProps });
+                }}
+                navigation={navigation}
               />
             )}
             keyExtractor={(item, indx) => indx.toString()}
